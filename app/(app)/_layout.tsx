@@ -5,7 +5,7 @@ import { useTheme } from "react-native-paper";
 export default function AppLayout() {
   const theme = useTheme();
 
-  const user = false;
+  const user = true;
 
   if (!user) {
     return <Redirect href="/(authorization)/login" />;
@@ -19,7 +19,7 @@ export default function AppLayout() {
       }}
     >
       <Tabs.Screen
-        name="(home)/index"
+        name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
@@ -28,7 +28,7 @@ export default function AppLayout() {
         }}
       />
       <Tabs.Screen
-        name="(exercises)/index"
+        name="(exercises)"
         options={{
           title: "Exercises",
           tabBarIcon: ({ color }) => (
