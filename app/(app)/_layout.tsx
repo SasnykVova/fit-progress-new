@@ -1,13 +1,40 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Redirect, Tabs } from "expo-router";
-import { useTheme } from "react-native-paper";
+import * as SecureStore from "expo-secure-store";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, useTheme } from "react-native-paper";
 
 export default function AppLayout() {
   const theme = useTheme();
 
-  const user = true;
+  const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  if (!user) {
+  const checkAuth = async () => {
+    try {
+      const token = await SecureStore.getItemAsync("userToken");
+      if (token) {
+        setIsAuth(true);
+      } else {
+        setIsAuth(false);
+      }
+    } catch (error) {
+      console.error("Auth check error:", error);
+      setIsAuth(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator size="large" />;
+  }
+
+  if (!isAuth) {
     return <Redirect href="/(authorization)/login" />;
   }
 

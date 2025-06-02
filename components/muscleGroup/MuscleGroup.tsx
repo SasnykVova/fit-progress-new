@@ -1,7 +1,6 @@
-import DeleteExerciseDialog from "@/components/exercise/DeleteExerciseDialog";
 import { exercises } from "@/mock/musleGroup/exercises";
 import { globalStyles } from "@/styles/globalStyles";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link } from "expo-router";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
@@ -12,10 +11,12 @@ import {
   Text,
   useTheme,
 } from "react-native-paper";
+
 import AddExerciseDialog from "./AddExerciseDialog";
+import DeleteExerciseDialog from "./DeleteExerciseDialog";
 import EmptyExercise from "./EmptyExercise";
 
-export default function Exercise() {
+export default function MuscleGroup() {
   const theme = useTheme();
 
   const [exerciseSearch, setExerciseSearch] = useState<string>("");
@@ -45,8 +46,6 @@ export default function Exercise() {
 
   const isEmpty = false;
 
-  const { id } = useLocalSearchParams();
-  const exerciseId = Array.isArray(id) ? id[0] : (id as string);
   return (
     <View style={[styles.exreciseGroup, { backgroundColor: "#fff" }]}>
       <View style={styles.wrapper}>

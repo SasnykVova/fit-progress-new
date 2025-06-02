@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   mainTitle: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "600",
     textAlign: "center",
   },

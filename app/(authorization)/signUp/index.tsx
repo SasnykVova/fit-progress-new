@@ -1,9 +1,10 @@
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 
+import { useSignUp } from "@/services/authService/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Gap from "../../../components/ui/Gap";
 import {
@@ -18,9 +19,12 @@ export default function SignUp() {
   const theme = useTheme();
   const router = useRouter();
 
+  const { mutate: signUp, isPending, isSuccess } = useSignUp();
+
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -33,7 +37,15 @@ export default function SignUp() {
       password: data.password,
       name: data.name,
     };
+    signUp(userData);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.replace("/");
+      reset();
+    }
+  }, [isSuccess, router, reset]);
 
   return (
     <View style={styles.page}>
@@ -60,6 +72,7 @@ export default function SignUp() {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
+              disabled={isPending}
             />
           )}
         />
@@ -76,6 +89,7 @@ export default function SignUp() {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
+              disabled={isPending}
             />
           )}
         />
@@ -95,6 +109,7 @@ export default function SignUp() {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
+              disabled={isPending}
               right={
                 <TextInput.Icon
                   icon={passwordVisible ? "eye-off" : "eye"}
@@ -120,6 +135,7 @@ export default function SignUp() {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
+              disabled={isPending}
               right={
                 <TextInput.Icon
                   icon={repeatPasswordVisible ? "eye-off" : "eye"}
@@ -133,7 +149,13 @@ export default function SignUp() {
           <Text style={styles.error}>{errors.repeatPassword.message}</Text>
         )}
         <Gap size={32} />
-        <Button style={styles.button} mode="contained">
+        <Button
+          style={styles.button}
+          mode="contained"
+          onPress={handleSubmit(onSubmit)}
+          loading={isPending}
+          disabled={isPending}
+        >
           SIGN UP
         </Button>
         <View style={styles.loginContainer}>

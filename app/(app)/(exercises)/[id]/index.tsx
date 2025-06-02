@@ -1,4 +1,4 @@
-import Exercise from "@/components/exercise/Exercise";
+import MuscleGroup from "@/components/muscleGroup/MuscleGroup";
 import {
   AddExersiceSchema,
   TAddExersiceSchema,
@@ -15,7 +15,7 @@ export default function ExreciseGroup() {
   });
   return (
     <FormProvider {...methods}>
-      <Exercise />
+      <MuscleGroup />
     </FormProvider>
   );
 }

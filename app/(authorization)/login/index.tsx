@@ -1,6 +1,7 @@
+import { useLogin } from "@/services/authService/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { Button, Divider, Text, TextInput, useTheme } from "react-native-paper";
@@ -13,11 +14,14 @@ import {
 export default function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
+  const { mutate: login, isPending, isSuccess } = useLogin();
+
   const theme = useTheme();
   const router = useRouter();
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
@@ -27,7 +31,16 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data: TLoginSchema) => {};
+  const onSubmit = (data: TLoginSchema) => {
+    login(data);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      router.replace("/");
+      reset();
+    }
+  }, [isSuccess, router, reset]);
 
   return (
     <View style={styles.page}>
@@ -50,6 +63,7 @@ export default function Login() {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
+              disabled={isPending}
             />
           )}
         />
@@ -69,6 +83,7 @@ export default function Login() {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
+              disabled={isPending}
               right={
                 <TextInput.Icon
                   icon={passwordVisible ? "eye-off" : "eye"}
@@ -86,6 +101,8 @@ export default function Login() {
           style={styles.button}
           mode="contained"
           onPress={handleSubmit(onSubmit)}
+          loading={isPending}
+          disabled={isPending}
         >
           LOGIN
         </Button>
