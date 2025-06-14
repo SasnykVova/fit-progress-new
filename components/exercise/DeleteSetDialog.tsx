@@ -44,7 +44,6 @@ const DeleteSetDialog: React.FunctionComponent<IDeleteSetDialogProps> = ({
       exerciseId: exerciseId,
       setNumber: deleteSetNumber,
     };
-    console.log(deleteExerciseData);
     deleteExerciseSet?.(deleteExerciseData);
   };
 

@@ -4,7 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { globalStyles } from "@/styles/globalStyles";
 import { ISet } from "@/types/exercise/exerciseTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -32,6 +32,7 @@ export default function Exercise() {
   const theme = useTheme();
   const { userId } = useAuthStore();
   const { exerciseId: id } = useLocalSearchParams();
+  const router = useRouter();
 
   const exerciseId = Array.isArray(id) ? id[0] : (id as string);
 
@@ -178,6 +179,7 @@ export default function Exercise() {
         iconColor="white"
         containerColor={theme.colors.primary}
         style={styles.timerButton}
+        onPress={() => router.push("/(app)/(exercises)/stopwatch")}
       />
       <IconButton
         icon="plus"
