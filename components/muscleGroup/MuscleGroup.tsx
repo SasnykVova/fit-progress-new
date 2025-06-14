@@ -80,53 +80,70 @@ export default function MuscleGroup() {
           />
           <Text style={styles.subTitle}>Exercises</Text>
 
-          {isLoading ? (
-            <ActivityIndicator
-              size="large"
-              style={{
-                flex: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            />
-          ) : data?.length === 0 ? (
-            <EmptyExercise
-              title="Your exercise list is empty."
-              text="To create a new exercise, tap the plus icon at the bottom right."
-            />
-          ) : (
-            <View style={styles.exercisesContainer}>
-              {filteredExercises?.map(
-                ({ id, name }: { id: string; name: string }) => (
-                  <Link
-                    href={{
-                      pathname: "/(app)/(exercises)/[id]/[exerciseId]",
-                      params: { id: "1", exerciseId: id },
-                    }}
-                    key={id}
-                  >
-                    <Surface style={styles.exercise} elevation={3}>
-                      <Text
-                        style={[
-                          styles.exerciseText,
-                          { color: theme.colors.primary },
-                        ]}
-                      >
-                        {name}
-                      </Text>
-                      <IconButton
-                        icon="delete"
-                        size={26}
-                        iconColor={theme.colors.secondary}
-                        onPress={() => showDialog(name, id)}
-                      />
-                    </Surface>
-                  </Link>
-                )
-              )}
-            </View>
-          )}
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              height: 400,
+            }}
+          >
+            {isLoading ? (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <ActivityIndicator
+                  size="large"
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                />
+              </View>
+            ) : data?.length === 0 ? (
+              <EmptyExercise
+                title="Your exercise list is empty."
+                text="To create a new exercise, tap the plus icon at the bottom right."
+              />
+            ) : (
+              <View style={styles.exercisesContainer}>
+                {filteredExercises?.map(
+                  ({ id, name }: { id: string; name: string }) => (
+                    <Link
+                      href={{
+                        pathname: "/(app)/(exercises)/[id]/[exerciseId]",
+                        params: { id: "1", exerciseId: id },
+                      }}
+                      key={id}
+                    >
+                      <Surface style={styles.exercise} elevation={3}>
+                        <Text
+                          style={[
+                            styles.exerciseText,
+                            { color: theme.colors.primary },
+                          ]}
+                        >
+                          {name}
+                        </Text>
+                        <IconButton
+                          icon="delete"
+                          size={26}
+                          iconColor={theme.colors.secondary}
+                          onPress={() => showDialog(name, id)}
+                        />
+                      </Surface>
+                    </Link>
+                  )
+                )}
+              </View>
+            )}
+          </View>
         </View>
         <DeleteExerciseDialog
           visible={visible}
@@ -167,6 +184,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
+    justifyContent: "center",
     gap: 24,
   },
   search: {
