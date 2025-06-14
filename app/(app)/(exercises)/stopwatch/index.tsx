@@ -45,7 +45,7 @@ export default function StopWatch({ initialTime = 0 }) {
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <View style={{ width: 250 }}>
+      <View style={{ width: 250, display: "flex", alignItems: "center" }}>
         <Text
           variant="displayLarge"
           style={{ color: theme.colors.primary, marginBottom: 20 }}
