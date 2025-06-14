@@ -19,7 +19,7 @@ const Dialog: React.FunctionComponent<IDialogProps> = ({
 }) => {
   return (
     <PaperDialog visible={visible} onDismiss={onDismiss} style={styles.dialog}>
-      <PaperDialog.Title>{title}</PaperDialog.Title>
+      <PaperDialog.Title style={styles.title}>{title}</PaperDialog.Title>
       <PaperDialog.Content>{children && children}</PaperDialog.Content>
       <PaperDialog.Actions>{actions && actions}</PaperDialog.Actions>
     </PaperDialog>
@@ -29,6 +29,9 @@ const Dialog: React.FunctionComponent<IDialogProps> = ({
 const styles = StyleSheet.create({
   dialog: {
     borderRadius: 16,
+  },
+  title: {
+    fontWeight: "700",
   },
 });
 

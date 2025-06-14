@@ -1,28 +1,23 @@
-// stores/useUserStore.ts
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
-
-export interface IUser {
-  uid: string;
-  email: string;
-  name: string;
-}
+import { createJSONStorage, persist } from "zustand/middleware";
 
 interface UserState {
-  user: null | IUser;
-  setUser: (user: IUser) => void;
-  clearUser: () => void;
-  isLoading: boolean;
-  isResolved: boolean;
-  setLoading: (value: boolean) => void;
-  setResolved: (value: boolean) => void;
+  userId: string;
+  setUserId: (id: string) => void;
+  clearUserId: () => void;
 }
 
-export const authStore = create<UserState>((set) => ({
-  user: null,
-  isLoading: false,
-  isResolved: false,
-  setUser: (user) => set({ user }),
-  clearUser: () => set({ user: null }),
-  setLoading: (value) => set({ isLoading: value }),
-  setResolved: (value) => set({ isResolved: value }),
-}));
+export const useAuthStore = create<UserState>()(
+  persist(
+    (set) => ({
+      userId: "",
+      setUserId: (id: string) => set({ userId: id }),
+      clearUserId: () => set({ userId: "" }),
+    }),
+    {
+      name: "auth-storage",
+      storage: createJSONStorage(() => AsyncStorage),
+    }
+  )
+);

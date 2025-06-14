@@ -1,40 +1,35 @@
+import { auth } from "@/firebase/firebaseConfig";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Redirect, Tabs } from "expo-router";
-import * as SecureStore from "expo-secure-store";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { View } from "react-native";
 import { ActivityIndicator, useTheme } from "react-native-paper";
 
 export default function AppLayout() {
   const theme = useTheme();
 
-  const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const checkAuth = async () => {
-    try {
-      const token = await SecureStore.getItemAsync("userToken");
-      if (token) {
-        setIsAuth(true);
-      } else {
-        setIsAuth(false);
-      }
-    } catch (error) {
-      console.error("Auth check error:", error);
-      setIsAuth(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    checkAuth();
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+      setLoading(false);
+    });
+
+    return unsubscribe;
   }, []);
 
   if (loading) {
-    return <ActivityIndicator size="large" />;
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
-  if (!isAuth) {
+  if (!user) {
     return <Redirect href="/(authorization)/login" />;
   }
 

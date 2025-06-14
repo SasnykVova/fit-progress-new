@@ -1,6 +1,13 @@
 import { StyleSheet, View } from "react-native";
-import { Button, Text, TextInput, useTheme } from "react-native-paper";
+import {
+  Button,
+  Snackbar,
+  Text,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 
+import { getRegisterErrorMessage } from "@/helpers/utils/register/getRegisterErrorMessage";
 import { useSignUp } from "@/services/authService/register";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -15,11 +22,12 @@ import {
 export default function SignUp() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [repeatPasswordVisible, setRepeatPasswordVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const theme = useTheme();
   const router = useRouter();
 
-  const { mutate: signUp, isPending, isSuccess } = useSignUp();
+  const { mutate: signUp, isPending, isSuccess, isError, error } = useSignUp();
 
   const {
     control,
@@ -31,7 +39,6 @@ export default function SignUp() {
   });
 
   const onSubmit = (data: TSignUpSchema) => {
-    console.log("Sign up form data", data);
     const userData = {
       email: data.email,
       password: data.password,
@@ -46,6 +53,12 @@ export default function SignUp() {
       reset();
     }
   }, [isSuccess, router, reset]);
+
+  useEffect(() => {
+    if (isError) {
+      setVisible(true);
+    }
+  }, [isError, reset]);
 
   return (
     <View style={styles.page}>
@@ -170,6 +183,16 @@ export default function SignUp() {
           </Button>
         </View>
       </View>
+      <Snackbar
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        duration={3000}
+        style={{ backgroundColor: theme.colors.primary }}
+      >
+        <Text style={{ fontWeight: "500", color: "white" }}>
+          {getRegisterErrorMessage(error?.message)}
+        </Text>
+      </Snackbar>
     </View>
   );
 }

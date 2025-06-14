@@ -2,53 +2,60 @@ import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, useTheme } from "react-native-paper";
 
-import { useDeleteExercise } from "@/services/muscleGroup/DeleteExercise";
+import { useDeleteExerciseSet } from "@/services/exercise/deleteExerciseSet";
 import { useAuthStore } from "@/store/authStore";
+import { useLocalSearchParams } from "expo-router";
 import Dialog from "../ui/Dialog";
 
-interface IDeleteExerciseDialogProps {
+interface IDeleteSetDialogProps {
   visible?: boolean;
   onClose?: () => void;
-  deleteExerciseName?: string;
-  setDeleteExerciseName: (name: string) => void;
-  deleteExerciseId: string;
-  setDeleteExerciseId: (id: string) => void;
+  deleteSetNumber: string;
+  setDeleteExerciseName?: (name: string) => void;
+  deleteSetId?: string;
+  setDeleteSetId?: (id: string) => void;
 }
 
-const DeleteExerciseDialog: React.FunctionComponent<
-  IDeleteExerciseDialogProps
-> = ({
+const DeleteSetDialog: React.FunctionComponent<IDeleteSetDialogProps> = ({
   visible,
   onClose,
-  deleteExerciseName,
+  deleteSetNumber,
   setDeleteExerciseName,
-  deleteExerciseId,
-  setDeleteExerciseId,
+  deleteSetId,
+  setDeleteSetId,
 }) => {
   const theme = useTheme();
   const {
-    mutate: deleteExercise,
+    mutate: deleteExerciseSet,
     isPending,
     isSuccess,
     reset,
-  } = useDeleteExercise();
+  } = useDeleteExerciseSet();
+
+  const { exerciseId: id } = useLocalSearchParams();
+
+  const exerciseId = Array.isArray(id) ? id[0] : (id as string);
+
   const { userId } = useAuthStore();
+
   const handleDeleteExercise = () => {
     const deleteExerciseData = {
       userId,
-      exerciseId: deleteExerciseId,
+      exerciseId: exerciseId,
+      setNumber: deleteSetNumber,
     };
-    deleteExercise(deleteExerciseData);
+    console.log(deleteExerciseData);
+    deleteExerciseSet?.(deleteExerciseData);
   };
 
   useEffect(() => {
     if (isSuccess) {
-      setDeleteExerciseId("");
-      setDeleteExerciseName("");
+      setDeleteSetId?.("");
+      setDeleteExerciseName?.("");
       onClose?.();
       reset();
     }
-  }, [isSuccess, setDeleteExerciseId, onClose, setDeleteExerciseName, reset]);
+  }, [isSuccess, setDeleteSetId, onClose, setDeleteExerciseName, reset]);
 
   return (
     <Dialog
@@ -76,9 +83,9 @@ const DeleteExerciseDialog: React.FunctionComponent<
             color: theme.colors.secondary,
           }}
         >
-          {deleteExerciseName}
+          {deleteSetNumber}
         </Text>{" "}
-        exercise ?
+        set ?
       </Text>
     </Dialog>
   );
@@ -92,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DeleteExerciseDialog;
+export default DeleteSetDialog;

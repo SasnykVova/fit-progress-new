@@ -2,16 +2,20 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Icon, Text } from "react-native-paper";
 
-interface IEmptyExerciseProps {}
+interface IEmptyExerciseProps {
+  title?: string;
+  text?: string;
+}
 
-const EmptyExercise: React.FunctionComponent<IEmptyExerciseProps> = (props) => {
+const EmptyExercise: React.FunctionComponent<IEmptyExerciseProps> = ({
+  title,
+  text,
+}) => {
   return (
     <View style={styles.emptyContainer}>
       <Icon source="clipboard-text-off-outline" size={40} />
-      <Text style={styles.emptyTitle}>Your exercise list is empty.</Text>
-      <Text style={styles.emptyText}>
-        To create a new exercise, tap the plus icon at the bottom right.
-      </Text>
+      <Text style={styles.emptyTitle}>{title}</Text>
+      <Text style={styles.emptyText}>{text}</Text>
     </View>
   );
 };

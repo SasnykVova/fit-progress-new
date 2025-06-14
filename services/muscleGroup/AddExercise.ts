@@ -1,5 +1,5 @@
 import { firebaseDB } from "@/firebase/firebaseConfig";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 
 interface IAddExerciseArguments {
@@ -16,6 +16,7 @@ const addExercise = async (userId: string, name: string, groupId: string) => {
       name: name,
       groupId: muscleGroupRef,
       id: Date.now().toString(),
+      sets: [],
     };
     await updateDoc(userRef, {
       exercises: arrayUnion(newExercise),
@@ -28,8 +29,14 @@ const addExercise = async (userId: string, name: string, groupId: string) => {
 };
 
 export const useAddExercise = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ userId, name, groupId }: IAddExerciseArguments) =>
       addExercise(userId, name, groupId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getExerciseByGroupId"],
+      });
+    },
   });
 };

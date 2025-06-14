@@ -1,11 +1,11 @@
-import { firebaseAuth } from "@/firebase/firebaseConfig";
+import { auth } from "@/firebase/firebaseConfig";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import { signOut } from "firebase/auth";
 
 const loguot = async () => {
   try {
-    await signOut(firebaseAuth);
+    await signOut(auth);
     await SecureStore.deleteItemAsync("userToken");
     console.log("User loguot success!");
   } catch (error) {

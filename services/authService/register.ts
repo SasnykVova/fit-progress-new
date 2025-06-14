@@ -1,4 +1,5 @@
-import { firebaseAuth, firebaseDB } from "@/firebase/firebaseConfig";
+import { auth, firebaseDB } from "@/firebase/firebaseConfig";
+import { useAuthStore } from "@/store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -7,7 +8,7 @@ import { doc, setDoc } from "firebase/firestore";
 const signUp = async (email: string, password: string, name: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
-      firebaseAuth,
+      auth,
       email,
       password
     );
@@ -24,12 +25,12 @@ const signUp = async (email: string, password: string, name: string) => {
     await SecureStore.setItemAsync("userId", user.uid);
     await SecureStore.setItemAsync("userName", name);
     await SecureStore.setItemAsync("userEmail", email);
+    useAuthStore.getState().setUserId(user.uid);
     console.log("Registration successful");
-  } catch (error) {
-    const err = error as Error;
-    console.error("Registration error:", err);
-    alert(err.message);
-    throw err;
+  } catch (error: any) {
+    console.log("Register error");
+    const errorCode = error?.code;
+    throw new Error(errorCode);
   }
 };
 

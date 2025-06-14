@@ -1,7 +1,7 @@
 import { useAddExercise } from "@/services/muscleGroup/AddExercise";
 import { useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
@@ -21,12 +21,17 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
   visible,
   onDismiss,
 }) => {
-  const { control, handleSubmit } = useFormContext<IAddExFrom>();
-  const { mutate: addExercise, isPending } = useAddExercise();
+  const { control, handleSubmit, reset } = useFormContext<IAddExFrom>();
+  const {
+    mutate: addExercise,
+    isPending,
+    isSuccess,
+    reset: resetMutation,
+  } = useAddExercise();
 
   const { id } = useLocalSearchParams();
 
-  const exerciseId = Array.isArray(id) ? id[0] : (id as string);
+  const groupId = Array.isArray(id) ? id[0] : (id as string);
 
   const onSubmit = async (data: IAddExFrom) => {
     console.log("Exercise name", data);
@@ -38,10 +43,18 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
     const addExerciseData = {
       userId: userId,
       name: data.name,
-      groupId: exerciseId,
+      groupId: groupId,
     };
     addExercise(addExerciseData);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      onDismiss?.();
+      reset();
+      resetMutation();
+    }
+  }, [isSuccess, reset, onDismiss, resetMutation]);
 
   return (
     <Dialog

@@ -1,10 +1,18 @@
+import { getLoginErrorMessage } from "@/helpers/utils/login/getLoginErrorMessage";
 import { useLogin } from "@/services/authService/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, View } from "react-native";
-import { Button, Divider, Text, TextInput, useTheme } from "react-native-paper";
+import {
+  Button,
+  Divider,
+  Snackbar,
+  Text,
+  TextInput,
+  useTheme,
+} from "react-native-paper";
 import Gap from "../../../components/ui/Gap";
 import {
   loginSchema,
@@ -13,8 +21,9 @@ import {
 
 export default function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
-  const { mutate: login, isPending, isSuccess } = useLogin();
+  const { mutate: login, isPending, isSuccess, isError, error } = useLogin();
 
   const theme = useTheme();
   const router = useRouter();
@@ -31,6 +40,8 @@ export default function Login() {
     },
   });
 
+  console.trace("login component", error?.message);
+
   const onSubmit = (data: TLoginSchema) => {
     login(data);
   };
@@ -41,6 +52,12 @@ export default function Login() {
       reset();
     }
   }, [isSuccess, router, reset]);
+
+  useEffect(() => {
+    if (isError) {
+      setVisible(true);
+    }
+  }, [isError, reset]);
 
   return (
     <View style={styles.page}>
@@ -124,6 +141,16 @@ export default function Login() {
           </Button>
         </View>
       </View>
+      <Snackbar
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        duration={3000}
+        style={{ backgroundColor: theme.colors.primary }}
+      >
+        <Text style={{ fontWeight: "500", color: "white" }}>
+          {getLoginErrorMessage(error?.message)}
+        </Text>
+      </Snackbar>
     </View>
   );
 }

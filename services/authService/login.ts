@@ -1,4 +1,5 @@
-import { firebaseAuth, firebaseDB } from "@/firebase/firebaseConfig";
+import { auth, firebaseDB } from "@/firebase/firebaseConfig";
+import { useAuthStore } from "@/store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -7,7 +8,7 @@ import { doc, getDoc } from "firebase/firestore";
 const login = async (email: string, password: string) => {
   try {
     const userCredential = await signInWithEmailAndPassword(
-      firebaseAuth,
+      auth,
       email,
       password
     );
@@ -22,30 +23,13 @@ const login = async (email: string, password: string) => {
     await SecureStore.setItemAsync("userId", uid);
     await SecureStore.setItemAsync("userName", userData?.name || "");
     await SecureStore.setItemAsync("userEmail", userData?.email || "");
+    useAuthStore.getState().setUserId(uid);
     console.log("User login success!");
     return userCredential.user;
   } catch (error: any) {
-    const errorCode = error?.code;
-
-    switch (errorCode) {
-      case "auth/user-not-found":
-        alert("Користувача з такою електронною адресою не знайдено.");
-        break;
-      case "auth/wrong-password":
-        alert("Неправильний пароль. Спробуйте ще раз.");
-        break;
-      case "auth/invalid-email":
-        alert("Невірний формат електронної пошти.");
-        break;
-      case "auth/user-disabled":
-        alert("Цей акаунт було вимкнено.");
-        break;
-      default:
-        alert("Сталася невідома помилка. Спробуйте пізніше.");
-        console.error("Login error:", error);
-    }
-
-    throw error;
+    console.log("Login error");
+    const errorCode = error.code;
+    throw new Error(errorCode);
   }
 };
 

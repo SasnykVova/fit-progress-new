@@ -1,3 +1,4 @@
+import { globalStyles } from "@/styles/globalStyles";
 import { Link } from "expo-router";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Surface, Text, useTheme } from "react-native-paper";
@@ -25,7 +26,7 @@ export default function ExercisesTab() {
   return (
     <View style={[styles.exercises, { backgroundColor: "#fff" }]}>
       <View style={styles.titleContainer}>
-        <Text style={styles.mainTitle}>Select exercise group</Text>
+        <Text style={globalStyles.h2}>Select exercise group</Text>
       </View>
       <View style={styles.groupContainer}>
         {muscleGroupData.map(({ id, name, spec }) => (
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: 1,
     textAlign: "center",
   },
