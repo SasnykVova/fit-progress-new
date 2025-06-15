@@ -26,6 +26,7 @@ const signUp = async (email: string, password: string, name: string) => {
     await SecureStore.setItemAsync("userName", name);
     await SecureStore.setItemAsync("userEmail", email);
     useAuthStore.getState().setUserId(user.uid);
+    useAuthStore.getState().setUserName(name || "");
     console.log("Registration successful");
   } catch (error: any) {
     console.log("Register error");

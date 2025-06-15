@@ -24,6 +24,7 @@ const login = async (email: string, password: string) => {
     await SecureStore.setItemAsync("userName", userData?.name || "");
     await SecureStore.setItemAsync("userEmail", userData?.email || "");
     useAuthStore.getState().setUserId(uid);
+    useAuthStore.getState().setUserName(userData?.name || "");
     console.log("User login success!");
     return userCredential.user;
   } catch (error: any) {

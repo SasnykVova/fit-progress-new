@@ -59,7 +59,7 @@ export default function AppLayout() {
         }}
       />
       <Tabs.Screen
-        name="(settings)/index"
+        name="(settings)"
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (

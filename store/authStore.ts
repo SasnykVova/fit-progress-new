@@ -6,6 +6,8 @@ interface UserState {
   userId: string;
   setUserId: (id: string) => void;
   clearUserId: () => void;
+  userName: string;
+  setUserName: (name: string) => void;
 }
 
 export const useAuthStore = create<UserState>()(
@@ -14,6 +16,8 @@ export const useAuthStore = create<UserState>()(
       userId: "",
       setUserId: (id: string) => set({ userId: id }),
       clearUserId: () => set({ userId: "" }),
+      userName: "",
+      setUserName: (name: string) => set({ userName: name }),
     }),
     {
       name: "auth-storage",

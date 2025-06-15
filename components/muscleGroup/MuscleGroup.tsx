@@ -117,12 +117,19 @@ export default function MuscleGroup() {
                       >
                         {name}
                       </Text>
-                      <IconButton
-                        icon="delete"
-                        size={26}
-                        iconColor={theme.colors.secondary}
-                        onPress={() => showDialog(name, id)}
-                      />
+                      <View style={styles.iconContainer}>
+                        <IconButton
+                          icon="delete"
+                          size={26}
+                          iconColor={theme.colors.secondary}
+                          onPress={() => showDialog(name, id)}
+                        />
+                        <IconButton
+                          icon="chevron-right"
+                          style={{ margin: 0, padding: 0 }}
+                          size={25}
+                        />
+                      </View>
                     </Surface>
                   </Link>
                 )
@@ -187,7 +194,7 @@ const styles = StyleSheet.create({
     overflowY: "auto",
   },
   exercise: {
-    paddingHorizontal: 16,
+    paddingLeft: 16,
     borderRadius: 8,
     width: "100%",
     height: 50,
@@ -210,5 +217,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     gap: 8,
+  },
+  iconContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
