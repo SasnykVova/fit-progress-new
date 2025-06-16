@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Button, Icon, Text, useTheme } from "react-native-paper";
 
@@ -9,6 +10,7 @@ export default function StopWatch({ initialTime = 0 }) {
   const intervalRef = useRef<number | null>(null);
 
   const theme = useTheme();
+  const { t } = useTranslation("muscleGroupTab");
   const router = useRouter();
 
   useEffect(() => {
@@ -67,9 +69,9 @@ export default function StopWatch({ initialTime = 0 }) {
             },
           ]}
           labelStyle={{ fontWeight: "700" }}
-          contentStyle={{ height: 50, width: 100 }}
+          contentStyle={{ height: 50, width: 150 }}
         >
-          {running ? "Pause" : "Start"}
+          {running ? t("stopWatch.pause") : t("stopWatch.start")}
         </Button>
 
         <Button
@@ -80,9 +82,9 @@ export default function StopWatch({ initialTime = 0 }) {
           }}
           style={[styles.button, { borderColor: theme.colors.error }]}
           labelStyle={{ color: theme.colors.error, fontWeight: "700" }}
-          contentStyle={{ height: 50, width: 100 }}
+          contentStyle={{ height: 50, width: 150 }}
         >
-          Reset
+          {t("stopWatch.reset")}
         </Button>
       </View>
 
@@ -92,12 +94,12 @@ export default function StopWatch({ initialTime = 0 }) {
           icon={(props) => (
             <Icon source="keyboard-backspace" size={25} color={props.color} />
           )}
-          contentStyle={{ height: 50, width: 250 }}
+          contentStyle={{ height: 50, width: 300 }}
           labelStyle={{ fontSize: 16, fontWeight: "700" }}
           style={styles.backButton}
           onPress={() => router.back()}
         >
-          Go back to exercise
+          {t("stopWatch.back")}
         </Button>
       </View>
     </View>

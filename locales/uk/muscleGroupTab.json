@@ -1,0 +1,57 @@
+{
+    "selectMuscleGroup": "Виберіть м’язову групу",
+  "muscleGroups": [
+    { "name": "Руки" },
+    { "name": "Ноги" },
+    { "name": "Тіло", "spec": "(передня частина)" },
+    { "name": "Тіло", "spec": "(задня частина)" },
+    { "name": "Кардіо" },
+    { "name": "Інше" }
+  ],
+  "muscleGroup": {
+    "subTitle": "Вправи",
+    "search": "Пошук вправи",
+    "addExercise": "Додати вправу",
+    "cancel": "Скасувати",
+    "add": "Додати",
+    "deleteExercise": "Видалити вправу",
+    "deleteExConfirmText": "Ви дійсно хочете видалити вправу <name>{{exerciseName}}</name> ?",
+    "delete": "Видалити",
+    "exerciseName": "Назва",
+    "exerciseNamePlaceholder": "Введіть назву вправи",
+    "emptyTitle": "Ваш список вправ порожній",
+    "emptyText": "Щоб добавити вправу натисніть на значок плюс в правому нижньому куті",
+    "hands": "Руки",
+    "legs": "Ноги",
+    "frontBody": "Тіло (передня частина)",
+    "backBody": "Тіло (задня частина)",
+    "cardio": "Кардіо",
+    "other": "Інше"
+  },
+  "exercise": {
+    "sets": "Повтори",
+    "set": "Підхід",
+    "weight": "Вага",
+    "reps": "Повторень",
+    "addSet": "Добавити підхід",
+    "weightField": "Вага(кг)",
+    "weightPlaceholder": "Введіть вагу",
+    "repField": "Повторень",
+    "repsPlaceHolder": "Введіть кількість повторень",
+    "cancel": "Скасувати",
+    "add": "Додати",
+    "delete": "Видалити",
+    "editSet": "Редагування підходу",
+    "deleteSet": "Видалення підходу",
+    "deleteSetText": "Ви дійсно хочете видалити <name>{{setNumber}}</name> підхід ?",
+    "kg": "кг",
+    "emptySetsTitle": "Список підходів порожній.",
+    "emptySetsText": "Щоб створити підхід натисніть на кнопку додати у нижньому правому куті."
+  },
+  "stopWatch": {
+  "start": "Старт",
+  "pause": "Пауза",
+  "reset": "Скинути",
+  "back": "Повернутися до вправи"
+}
+}

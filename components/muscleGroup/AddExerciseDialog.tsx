@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import Dialog from "../ui/Dialog";
@@ -22,6 +23,7 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
   onDismiss,
 }) => {
   const { control, handleSubmit, reset } = useFormContext<IAddExFrom>();
+  const { t } = useTranslation("muscleGroupTab");
   const {
     mutate: addExercise,
     isPending,
@@ -58,20 +60,20 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
 
   return (
     <Dialog
-      title="Add exercise"
+      title={t("muscleGroup.addExercise")}
       visible={visible}
       onDismiss={onDismiss}
       actions={
         <View style={styles.actionContainer}>
           <Button onPress={onDismiss} disabled={isPending}>
-            Cancel
+            {t("muscleGroup.cancel")}
           </Button>
           <Button
             onPress={handleSubmit(onSubmit)}
             disabled={isPending}
             loading={isPending}
           >
-            Add
+            {t("muscleGroup.add")}
           </Button>
         </View>
       }
@@ -82,8 +84,8 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
         render={({ field: { value, onChange, onBlur }, fieldState }) => (
           <>
             <TextInput
-              label="Name"
-              placeholder="Enter the name of the exercise"
+              label={t("muscleGroup.exerciseName")}
+              placeholder={t("muscleGroup.exerciseNamePlaceholder")}
               mode="outlined"
               style={{ height: 40 }}
               value={value}

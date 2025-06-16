@@ -1,4 +1,5 @@
 import { auth } from "@/firebase/firebaseConfig";
+import { initI18n } from "@/i18n";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Redirect, Tabs } from "expo-router";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -12,6 +13,8 @@ export default function AppLayout() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [ready, setReady] = useState(false);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
@@ -21,7 +24,11 @@ export default function AppLayout() {
     return unsubscribe;
   }, []);
 
-  if (loading) {
+  useEffect(() => {
+    initI18n().then(() => setReady(true));
+  }, []);
+
+  if (loading || !ready) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
@@ -38,6 +45,12 @@ export default function AppLayout() {
       screenOptions={{
         tabBarActiveTintColor: theme.colors.primary,
         headerTintColor: theme.colors.primary,
+        tabBarStyle: {
+          backgroundColor: "#EAEAEA",
+        },
+        headerStyle: {
+          backgroundColor: "#EAEAEA",
+        },
       }}
     >
       <Tabs.Screen

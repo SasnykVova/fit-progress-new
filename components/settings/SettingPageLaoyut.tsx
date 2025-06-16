@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
@@ -15,14 +16,16 @@ const SettingPageLaoyut: React.FunctionComponent<ISettingPageLaoyutProps> = ({
   const router = useRouter();
   return (
     <View style={styles.root}>
+      <Button
+        style={styles.backButton}
+        icon={({ color }) => (
+          <MaterialCommunityIcons name="chevron-left" color={color} size={30} />
+        )}
+        onPress={() => router.replace("/(app)/(settings)")}
+      >
+        Settings
+      </Button>
       <View style={styles.header}>
-        <Button
-          style={styles.backButton}
-          icon="chevron-left"
-          onPress={() => router.replace("/(app)/(settings)")}
-        >
-          Settings
-        </Button>
         <Text style={styles.title} variant="titleLarge">
           {title}
         </Text>
@@ -35,19 +38,18 @@ const SettingPageLaoyut: React.FunctionComponent<ISettingPageLaoyutProps> = ({
 const styles = StyleSheet.create({
   root: {
     display: "flex",
-    gap: 20,
   },
   header: {
     paddingVertical: 16,
-    position: "relative",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
   backButton: {
-    position: "absolute",
-    left: -28,
+    alignSelf: "flex-start",
+    position: "relative",
+    left: -16,
   },
   title: {
     alignSelf: "center",

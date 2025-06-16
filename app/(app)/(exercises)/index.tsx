@@ -1,10 +1,11 @@
 import { globalStyles } from "@/styles/globalStyles";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import { Dimensions, StyleSheet, View } from "react-native";
-import { Surface, Text, useTheme } from "react-native-paper";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, View } from "react-native";
+import { IconButton, Surface, Text, useTheme } from "react-native-paper";
 
 interface IMuscleGroupData {
-  id: string;
   name: string;
   spec?: string;
 }
@@ -12,50 +13,66 @@ interface IMuscleGroupData {
 export default function ExercisesTab() {
   const theme = useTheme();
 
-  const muscleGroupData: IMuscleGroupData[] = [
-    { id: "1", name: "Hands" },
-    { id: "2", name: "Legs" },
-    { id: "3", name: "Body", spec: "(front side)" },
-    { id: "4", name: "Body", spec: "(back side)" },
-    { id: "5", name: "Cardio" },
-    { id: "6", name: "Other" },
-  ];
-  const screenWidth = Dimensions.get("window").width;
-  const itemWidth = screenWidth / 2 - 32;
+  const { t } = useTranslation("muscleGroupTab");
+
+  const muscleGroupsData = t("muscleGroups", {
+    returnObjects: true,
+  }) as IMuscleGroupData[];
 
   return (
     <View style={[styles.exercises, { backgroundColor: "#fff" }]}>
       <View style={styles.titleContainer}>
-        <Text style={globalStyles.h2}>Select exercise group</Text>
+        <Text style={globalStyles.h2}>{t("selectMuscleGroup")}</Text>
       </View>
       <View style={styles.groupContainer}>
-        {muscleGroupData.map(({ id, name, spec }) => (
-          <Link
-            key={id}
-            href={{ pathname: "/(app)/(exercises)/[id]", params: { id } }}
-          >
-            <Surface
-              style={[
-                styles.surface,
-                { backgroundColor: theme.colors.primaryContainer },
-                { width: itemWidth },
-                { height: itemWidth },
-              ]}
-              elevation={2}
-            >
-              <View style={styles.textContainer}>
-                <Text style={[styles.title, { color: theme.colors.primary }]}>
-                  {name}
-                </Text>
-                {spec && (
-                  <Text style={[styles.title, { color: theme.colors.primary }]}>
-                    {spec}
-                  </Text>
-                )}
-              </View>
-            </Surface>
-          </Link>
-        ))}
+        {Array.isArray(muscleGroupsData) &&
+          muscleGroupsData?.map(({ name, spec }, index) => {
+            const id = (index + 1).toString();
+            return (
+              <Link
+                key={index}
+                href={{ pathname: "/(app)/(exercises)/[id]", params: { id } }}
+                style={{ width: "100%", flex: 1 }}
+              >
+                <Surface
+                  style={[
+                    styles.surface,
+                    { backgroundColor: theme.colors.primaryContainer },
+                  ]}
+                  elevation={2}
+                >
+                  <View style={styles.itemContainer}>
+                    <View style={styles.textContainer}>
+                      <Text
+                        style={[styles.title, { color: theme.colors.primary }]}
+                      >
+                        {name}
+                      </Text>
+                      {spec && (
+                        <Text
+                          style={[
+                            styles.title,
+                            { color: theme.colors.primary },
+                          ]}
+                        >
+                          {spec}
+                        </Text>
+                      )}
+                    </View>
+                    <IconButton
+                      icon={({ color }) => (
+                        <MaterialCommunityIcons
+                          name="chevron-right"
+                          color={color}
+                          size={40}
+                        />
+                      )}
+                    />
+                  </View>
+                </Surface>
+              </Link>
+            );
+          })}
       </View>
     </View>
   );
@@ -78,8 +95,7 @@ const styles = StyleSheet.create({
   groupContainer: {
     flex: 1,
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: "column",
     gap: 16,
     flexWrap: "wrap",
   },
@@ -87,6 +103,8 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
+    height: "100%",
     borderRadius: 8,
   },
   title: {
@@ -95,8 +113,17 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textAlign: "center",
   },
+  itemContainer: {
+    paddingLeft: 16,
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   textContainer: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
+    gap: 4,
   },
 });

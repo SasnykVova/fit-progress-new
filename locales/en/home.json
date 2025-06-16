@@ -1,0 +1,19 @@
+{
+    "welcome": "Welcome to our app!",
+  "intro": {
+    "title": "In this app, you can:",
+    "features": [
+      "- create your own exercises",
+      "- organize exercises into specific groups",
+      "- delete exercises when needed"
+    ]
+  },
+  "tapOnExercise": {
+    "title": "Tap on an exercise to:",
+    "features": [
+      "- open its detail page",
+      "- add sets with repetitions and weight"
+    ]
+  }
+}
+

@@ -5,6 +5,7 @@ import { Button, Text, useTheme } from "react-native-paper";
 import { useDeleteExerciseSet } from "@/services/exercise/deleteExerciseSet";
 import { useAuthStore } from "@/store/authStore";
 import { useLocalSearchParams } from "expo-router";
+import { Trans, useTranslation } from "react-i18next";
 import Dialog from "../ui/Dialog";
 
 interface IDeleteSetDialogProps {
@@ -25,6 +26,7 @@ const DeleteSetDialog: React.FunctionComponent<IDeleteSetDialogProps> = ({
   setDeleteSetId,
 }) => {
   const theme = useTheme();
+  const { t } = useTranslation("muscleGroupTab");
   const {
     mutate: deleteExerciseSet,
     isPending,
@@ -58,33 +60,40 @@ const DeleteSetDialog: React.FunctionComponent<IDeleteSetDialogProps> = ({
 
   return (
     <Dialog
-      title="Delete exercise"
+      title={t("exercise.deleteSet")}
       visible={visible}
       onDismiss={onClose}
       actions={
         <View style={styles.actionContainer}>
-          <Button onPress={onClose}>Cancel</Button>
+          <Button onPress={onClose}>{t("exercise.cancel")}</Button>
           <Button
             onPress={handleDeleteExercise}
             disabled={isPending}
             loading={isPending}
           >
-            Delete
+            {t("exercise.delete")}
           </Button>
         </View>
       }
     >
       <Text>
-        Do you really want to delete{" "}
-        <Text
-          style={{
-            textDecorationLine: "underline",
-            color: theme.colors.secondary,
+        <Trans
+          i18nKey="exercise.deleteSetText"
+          ns="muscleGroupTab"
+          values={{ setNumber: deleteSetNumber }}
+          components={{
+            name: (
+              <Text
+                style={{
+                  textDecorationLine: "underline",
+                  color: theme.colors.secondary,
+                }}
+              >
+                {""}
+              </Text>
+            ),
           }}
-        >
-          {deleteSetNumber}
-        </Text>{" "}
-        set ?
+        />
       </Text>
     </Dialog>
   );

@@ -1,36 +1,43 @@
+import { useAuthStore } from "@/store/authStore";
 import { globalStyles } from "@/styles/globalStyles";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 
 interface IHomeProps {}
 
 const Home: React.FunctionComponent<IHomeProps> = (props) => {
-  const data = [
-    "- create your own exercises",
-    "- organize exercises into specific groups",
-    "- delete exercises when needed",
-  ];
-  const tapData = [
-    "- open its detail page",
-    "- add sets with repetitions and weight",
-  ];
+  const { t } = useTranslation("home");
+  const theme = useTheme();
+
+  const { userName } = useAuthStore();
+  const data = t("intro.features", { returnObjects: true });
+  const title = t("intro.title");
+
+  const tapData = t("tapOnExercise.features", { returnObjects: true });
+  const tapTitle = t("tapOnExercise.title");
+
   return (
     <View style={styles.home}>
       <View style={styles.wrapper}>
-        <Text style={globalStyles.h2}>Welcome to the system!</Text>
+        <View>
+          <Text style={globalStyles.h2}>{t("welcome")}</Text>
+          <Text style={[globalStyles.h2, { color: theme.colors.primary }]}>
+            {userName}
+          </Text>
+        </View>
+
         <View style={styles.textBlockWrapper}>
-          <Text style={styles.subTitle}>In this app, you can:</Text>
+          <Text variant="titleMedium">{title}</Text>
           <View>
-            {data.map((item, index) => (
-              <Text key={index}>{item}</Text>
-            ))}
+            {Array.isArray(data) &&
+              data.map((item, index) => <Text key={index}>{item}</Text>)}
           </View>
-          <Text style={{ fontWeight: "500" }}>Tap on an exercise to:</Text>
+          <Text variant="titleMedium">{tapTitle}</Text>
           <View>
-            {tapData.map((item, index) => (
-              <Text key={index}>{item}</Text>
-            ))}
+            {Array.isArray(tapData) &&
+              tapData.map((item, index) => <Text key={index}>{item}</Text>)}
           </View>
         </View>
       </View>
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
   wrapper: {
     display: "flex",
     flexDirection: "column",
-    gap: 16,
+    gap: 60,
   },
   textBlockWrapper: {
     alignItems: "center",

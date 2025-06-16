@@ -1,13 +1,19 @@
 import { firebaseDB } from "@/firebase/firebaseConfig";
+import { ISet } from "@/types/exercise/exerciseTypes";
 import { useQuery } from "@tanstack/react-query";
 import { doc, getDoc } from "firebase/firestore";
+
+interface IExercise {
+  groupId: string;
+  id: string;
+  name: string;
+  sets: ISet[];
+}
 
 export const getExerciseSets = async (
   userId: string,
   exerciseId: string
-): Promise<
-  { setNumber: string; weight: string; reps: string; id: string }[] | undefined
-> => {
+): Promise<IExercise | undefined> => {
   try {
     const userRef = doc(firebaseDB, "users", userId);
     const userSnap = await getDoc(userRef);
@@ -22,7 +28,7 @@ export const getExerciseSets = async (
 
     if (!exercise) throw new Error("Exercise not found");
 
-    return exercise.sets || [];
+    return exercise;
   } catch (error) {
     console.error("Failed to get exercise sets:", error);
     throw error;

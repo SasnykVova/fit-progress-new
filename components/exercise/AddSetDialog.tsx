@@ -4,6 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import Dialog from "../ui/Dialog";
@@ -22,6 +23,7 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
   setCount = 0,
 }) => {
   const { control, handleSubmit, reset } = useFormContext<TAddSetSchema>();
+  const { t } = useTranslation("muscleGroupTab");
   const {
     mutate: addExerciseSet,
     isPending,
@@ -70,20 +72,20 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
 
   return (
     <Dialog
-      title="Add set"
+      title={t("exercise.addSet")}
       visible={visible}
       onDismiss={onDismiss}
       actions={
         <View style={styles.actionContainer}>
           <Button onPress={handleCloseModal} disabled={isPending}>
-            Cancel
+            {t("exercise.cancel")}
           </Button>
           <Button
             onPress={handleSubmit(onSubmit)}
             disabled={isPending}
             loading={isPending}
           >
-            Add
+            {t("exercise.add")}
           </Button>
         </View>
       }
@@ -96,8 +98,8 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
             render={({ field: { value, onChange, onBlur }, fieldState }) => (
               <>
                 <TextInput
-                  label="Weight (kg)"
-                  placeholder="Enter the name of the exercise"
+                  label={t("exercise.weightField")}
+                  placeholder={t("exercise.weightPlaceholder")}
                   mode="outlined"
                   style={{ height: 40 }}
                   value={value}
@@ -121,8 +123,8 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
             render={({ field: { value, onChange, onBlur }, fieldState }) => (
               <>
                 <TextInput
-                  label="Repetitions"
-                  placeholder="Enter the name of the exercise"
+                  label={t("exercise.repField")}
+                  placeholder={t("exercise.repsPlaceHolder")}
                   mode="outlined"
                   style={{ height: 40 }}
                   value={value}

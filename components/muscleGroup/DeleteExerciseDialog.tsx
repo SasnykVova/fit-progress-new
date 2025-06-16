@@ -4,6 +4,7 @@ import { Button, Text, useTheme } from "react-native-paper";
 
 import { useDeleteExercise } from "@/services/muscleGroup/DeleteExercise";
 import { useAuthStore } from "@/store/authStore";
+import { Trans, useTranslation } from "react-i18next";
 import Dialog from "../ui/Dialog";
 
 interface IDeleteExerciseDialogProps {
@@ -26,6 +27,7 @@ const DeleteExerciseDialog: React.FunctionComponent<
   setDeleteExerciseId,
 }) => {
   const theme = useTheme();
+  const { t } = useTranslation("muscleGroupTab");
   const {
     mutate: deleteExercise,
     isPending,
@@ -52,33 +54,40 @@ const DeleteExerciseDialog: React.FunctionComponent<
 
   return (
     <Dialog
-      title="Delete exercise"
+      title={t("muscleGroup.deleteExercise")}
       visible={visible}
       onDismiss={onClose}
       actions={
         <View style={styles.actionContainer}>
-          <Button onPress={onClose}>Cancel</Button>
+          <Button onPress={onClose}>{t("muscleGroup.cancel")}</Button>
           <Button
             onPress={handleDeleteExercise}
             disabled={isPending}
             loading={isPending}
           >
-            Delete
+            {t("muscleGroup.delete")}
           </Button>
         </View>
       }
     >
       <Text>
-        Do you really want to delete{" "}
-        <Text
-          style={{
-            textDecorationLine: "underline",
-            color: theme.colors.secondary,
+        <Trans
+          i18nKey="muscleGroup.deleteExConfirmText"
+          ns="muscleGroupTab"
+          values={{ exerciseName: deleteExerciseName }}
+          components={{
+            name: (
+              <Text
+                style={{
+                  textDecorationLine: "underline",
+                  color: theme.colors.secondary,
+                }}
+              >
+                {""}
+              </Text>
+            ),
           }}
-        >
-          {deleteExerciseName}
-        </Text>{" "}
-        exercise ?
+        />
       </Text>
     </Dialog>
   );

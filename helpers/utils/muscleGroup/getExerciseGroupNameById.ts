@@ -1,18 +1,18 @@
-export const getExerciseGroupNameById = (id: string): string => {
+export const getExerciseGroupTranslationKeyById = (id: string): string => {
   switch (id) {
     case "1":
-      return "Hands";
+      return "hands";
     case "2":
-      return "Legs";
+      return "legs";
     case "3":
-      return "Body (front side)";
+      return "frontBody";
     case "4":
-      return "Body (back side)";
+      return "backBody";
     case "5":
-      return "Cardio";
+      return "cardio";
     case "6":
-      return "Other";
+      return "other";
     default:
-      return `Not grouop with id: ${id}`;
+      return "unknownGroup";
   }
 };

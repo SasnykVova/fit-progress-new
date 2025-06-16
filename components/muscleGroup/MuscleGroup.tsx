@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
   ActivityIndicator,
+  FAB,
   IconButton,
   Searchbar,
   Surface,
@@ -16,12 +17,16 @@ import AddExerciseDialog from "./AddExerciseDialog";
 import DeleteExerciseDialog from "./DeleteExerciseDialog";
 
 import { useDebounce } from "@/helpers/utils/general/useDebounce";
-import { getExerciseGroupNameById } from "@/helpers/utils/muscleGroup/getExerciseGroupNameById";
+
+import { getExerciseGroupTranslationKeyById } from "@/helpers/utils/muscleGroup/getExerciseGroupNameById";
 import { useAuthStore } from "@/store/authStore";
+import { useTranslation } from "react-i18next";
 import EmptyExercise from "./EmptyExercise";
 
 export default function MuscleGroup() {
   const theme = useTheme();
+  const { id } = useLocalSearchParams();
+  const groupId = Array.isArray(id) ? id[0] : (id as string);
 
   const [exerciseSearch, setExerciseSearch] = useState<string>("");
   const [visible, setVisible] = useState<boolean>(false);
@@ -30,8 +35,10 @@ export default function MuscleGroup() {
   const [addExerciseVisible, setAddExerciseVisible] = useState<boolean>(false);
   const debounceExerciseSearch = useDebounce(exerciseSearch, 300);
 
-  const { id } = useLocalSearchParams();
-  const groupId = Array.isArray(id) ? id[0] : (id as string);
+  const { t } = useTranslation("muscleGroupTab");
+
+  const translationKey = getExerciseGroupTranslationKeyById(groupId);
+  const groupName = t(`muscleGroup.${translationKey}`);
 
   const { userId } = useAuthStore();
   const { data, isLoading } = useGetExerciseByGroupId(userId, groupId);
@@ -66,17 +73,15 @@ export default function MuscleGroup() {
     <View style={[styles.muscleGroup, { backgroundColor: "#fff" }]}>
       <ScrollView contentContainerStyle={styles.exreciseGroup}>
         <View style={styles.wrapper}>
-          <Text style={globalStyles.h2}>
-            {getExerciseGroupNameById(groupId)}
-          </Text>
+          <Text style={globalStyles.h2}>{groupName}</Text>
           <Searchbar
             elevation={1}
-            placeholder="Search exercise"
+            placeholder={t("muscleGroup.search")}
             value={exerciseSearch}
             onChangeText={setExerciseSearch}
             style={styles.search}
           />
-          <Text style={styles.subTitle}>Exercises</Text>
+          <Text style={styles.subTitle}>{t("muscleGroup.subTitle")}</Text>
 
           {isLoading ? (
             <View style={{ marginVertical: 150 }}>
@@ -93,8 +98,8 @@ export default function MuscleGroup() {
           ) : data?.length === 0 ? (
             <View style={{ marginVertical: 150 }}>
               <EmptyExercise
-                title="Your exercise list is empty."
-                text="To create a new exercise, tap the plus icon at the bottom right."
+                title={t("muscleGroup.emptyTitle")}
+                text={t("muscleGroup.emptyText")}
               />
             </View>
           ) : (
@@ -110,6 +115,7 @@ export default function MuscleGroup() {
                   >
                     <Surface style={styles.exercise} elevation={3}>
                       <Text
+                        variant="titleMedium"
                         style={[
                           styles.exerciseText,
                           { color: theme.colors.primary },
@@ -150,11 +156,8 @@ export default function MuscleGroup() {
         visible={addExerciseVisible}
         onDismiss={handleCloseAddExerciseVisible}
       />
-      <IconButton
+      <FAB
         icon="plus"
-        size={30}
-        iconColor="white"
-        containerColor={theme.colors.primary}
         style={styles.addButton}
         onPress={handleOpenAddExerciseVisible}
       />
@@ -210,8 +213,8 @@ const styles = StyleSheet.create({
   addButton: {
     borderRadius: 16,
     position: "absolute",
-    right: 8,
-    bottom: 8,
+    right: 16,
+    bottom: 16,
   },
   actionContainer: {
     display: "flex",

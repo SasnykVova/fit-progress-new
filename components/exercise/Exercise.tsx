@@ -7,9 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
   ActivityIndicator,
+  FAB,
   IconButton,
   Surface,
   Text,
@@ -30,6 +32,7 @@ export default function Exercise() {
   const [currentEditSet, setCurrentEditSet] = useState<ISet | null>(null);
 
   const theme = useTheme();
+  const { t } = useTranslation("muscleGroupTab");
   const { userId } = useAuthStore();
   const { exerciseId: id } = useLocalSearchParams();
   const router = useRouter();
@@ -52,6 +55,7 @@ export default function Exercise() {
   });
 
   const { data, isLoading } = useGetExerciseSets(userId, exerciseId);
+  console.log("55", data);
 
   const editResetForm = editSetMethods.reset;
 
@@ -98,8 +102,8 @@ export default function Exercise() {
     <View style={[styles.muscleGroup, { backgroundColor: "#fff" }]}>
       <ScrollView contentContainerStyle={styles.exreciseGroup}>
         <View style={styles.wrapper}>
-          <Text style={globalStyles.h2}>Exercise name</Text>
-          <Text style={styles.subTitle}>Sets</Text>
+          <Text style={globalStyles.h2}>{data?.name}</Text>
+          <Text style={styles.subTitle}>{t("exercise.sets")}</Text>
 
           {isLoading ? (
             <ActivityIndicator
@@ -111,22 +115,28 @@ export default function Exercise() {
                 alignItems: "center",
               }}
             />
-          ) : data?.length === 0 ? (
+          ) : data?.sets?.length === 0 ? (
             <EmptyExercise
-              title="Your sets list is empty."
-              text="To create a new set, tap the plus icon at the bottom right."
+              title={t("exercise.emptySetsTitle")}
+              text={t("exercise.emptySetsText")}
             />
           ) : (
             <View style={styles.setsContainer}>
-              {data?.map(({ setNumber, weight, reps, id }) => (
+              {data?.sets?.map(({ setNumber, weight, reps, id }) => (
                 <Surface key={setNumber} style={styles.set} elevation={3}>
-                  <Text style={styles.textMedium}>Підхід {setNumber}</Text>
+                  <Text style={styles.textMedium}>
+                    {t("exercise.set")} {setNumber}
+                  </Text>
                   <View style={styles.resultContainer}>
-                    <Text style={styles.textMedium}>Вага</Text>
-                    <Text>{weight} кг</Text>
+                    <Text style={styles.textMedium}>
+                      {t("exercise.weight")}
+                    </Text>
+                    <Text>
+                      {weight} {t("exercise.kg")}
+                    </Text>
                   </View>
                   <View style={styles.resultContainer}>
-                    <Text style={styles.textMedium}>Повторень</Text>
+                    <Text style={styles.textMedium}>{t("exercise.reps")}</Text>
                     <Text>{reps}</Text>
                   </View>
                   <View style={styles.btnContainer}>
@@ -158,7 +168,7 @@ export default function Exercise() {
         <AddSetDialog
           visible={addSetVisible}
           onClose={handleCloseAddSetVisible}
-          setCount={data?.length}
+          setCount={data?.sets?.length}
         />
       </FormProvider>
       <DeleteSetDialog
@@ -173,19 +183,13 @@ export default function Exercise() {
           editSetId={setId}
         />
       </FormProvider>
-      <IconButton
+      <FAB
         icon="timer-outline"
-        size={30}
-        iconColor="white"
-        containerColor={theme.colors.primary}
         style={styles.timerButton}
         onPress={() => router.push("/(app)/(exercises)/stopwatch")}
       />
-      <IconButton
+      <FAB
         icon="plus"
-        size={30}
-        iconColor="white"
-        containerColor={theme.colors.primary}
         style={styles.addButton}
         onPress={handleOpenAddSetVisible}
       />
@@ -243,13 +247,13 @@ const styles = StyleSheet.create({
   timerButton: {
     borderRadius: 16,
     position: "absolute",
-    left: 8,
-    bottom: 8,
+    left: 16,
+    bottom: 16,
   },
   addButton: {
     borderRadius: 16,
     position: "absolute",
-    right: 8,
-    bottom: 8,
+    right: 16,
+    bottom: 16,
   },
 });

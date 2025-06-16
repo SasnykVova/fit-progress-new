@@ -1,0 +1,57 @@
+{
+"selectMuscleGroup": "Select a muscle group",
+  "muscleGroups": [
+    { "name": "Hands" },
+    { "name": "Legs" },
+    { "name": "Body", "spec": "(front side)" },
+    { "name": "Body", "spec": "(back side)" },
+    { "name": "Cardio" },
+    { "name": "Other" }
+  ],
+  "muscleGroup": {
+    "subTitle": "Exercises",
+    "search": "Search exercise",
+    "addExercise": "Add exercise",
+    "cancel": "Cancel",
+    "add": "Add",
+    "deleteExercise": "Delete exercise",
+    "deleteExConfirmText": "Do you really want to delete <name>{{exerciseName}}</name> exercise ?",
+    "delete": "Delete",
+    "exerciseName": "Name",
+    "exerciseNamePlaceholder": "Enter the name of the exercise",
+    "emptyTitle": "Ваш список вправ порожній",
+    "emptyText": "Щоб добавити вправу натисніть на значок плюс в правому нижньому куті",
+    "hands": "Hands",
+    "legs": "Legs",
+    "frontBody": "Body (front side)",
+    "backBody": "Body (back side)",
+    "cardio": "Cardio",
+    "other": "Other"
+  },
+  "exercise": {
+  "sets": "Sets",
+  "set": "Set",
+  "weight": "Weight",
+  "reps": "Repetitions",
+  "addSet": "Add set",
+  "weightField": "Weight (kg)",
+  "weightPlaceholder": "Enter weight",
+  "repField": "Repetitions",
+  "repsPlaceHolder": "Enter number of repetitions",
+  "cancel": "Cancel",
+  "add": "Add",
+  "delete": "Delete",
+  "editSet": "Edit set",
+  "deleteSet": "Delete set",
+  "deleteSetText": "Do you really want to delete <name>{{setNumber}}</name> set?",
+  "kg": "kg",
+  "emptySetsTitle": "Your sets list is empty.",
+  "emptySetsText": "To create a new set, tap the plus icon at the bottom right."
+},
+"stopWatch": {
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "back": "Go back to exercise"
+}
+}
