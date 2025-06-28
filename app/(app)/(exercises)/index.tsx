@@ -32,7 +32,6 @@ export default function ExercisesTab() {
               <Link
                 key={index}
                 href={{ pathname: "/(app)/(exercises)/[id]", params: { id } }}
-                style={{ width: "100%", flex: 1 }}
               >
                 <Surface
                   style={[
@@ -64,7 +63,7 @@ export default function ExercisesTab() {
                         <MaterialCommunityIcons
                           name="chevron-right"
                           color={color}
-                          size={40}
+                          size={30}
                         />
                       )}
                     />
@@ -97,14 +96,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     gap: 16,
-    flexWrap: "wrap",
   },
   surface: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: "100%",
+    height: 50,
     borderRadius: 8,
   },
   title: {
