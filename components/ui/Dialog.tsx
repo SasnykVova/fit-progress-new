@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { StyleSheet } from "react-native";
-import { Dialog as PaperDialog } from "react-native-paper";
+import { Dialog as PaperDialog, useTheme } from "react-native-paper";
 
 interface IDialogProps {
   title: string;
@@ -17,8 +17,13 @@ const Dialog: React.FunctionComponent<IDialogProps> = ({
   visible = false,
   onDismiss,
 }) => {
+  const theme = useTheme();
   return (
-    <PaperDialog visible={visible} onDismiss={onDismiss} style={styles.dialog}>
+    <PaperDialog
+      visible={visible}
+      onDismiss={onDismiss}
+      style={[styles.dialog, { backgroundColor: theme.colors.secondary }]}
+    >
       <PaperDialog.Title style={styles.title}>{title}</PaperDialog.Title>
       <PaperDialog.Content>{children && children}</PaperDialog.Content>
       <PaperDialog.Actions>{actions && actions}</PaperDialog.Actions>

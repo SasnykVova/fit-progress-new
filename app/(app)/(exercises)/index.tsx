@@ -1,3 +1,4 @@
+import { useModeStore } from "@/store/modeStore";
 import { globalStyles } from "@/styles/globalStyles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
@@ -12,6 +13,7 @@ interface IMuscleGroupData {
 
 export default function ExercisesTab() {
   const theme = useTheme();
+  const { mode } = useModeStore();
 
   const { t } = useTranslation("muscleGroupTab");
 
@@ -20,9 +22,18 @@ export default function ExercisesTab() {
   }) as IMuscleGroupData[];
 
   return (
-    <View style={[styles.exercises, { backgroundColor: "#fff" }]}>
+    <View
+      style={[
+        styles.exercises,
+        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+      ]}
+    >
       <View style={styles.titleContainer}>
-        <Text style={globalStyles.h2}>{t("selectMuscleGroup")}</Text>
+        <Text
+          style={[globalStyles.h2, { color: mode === "white" ? "" : "white" }]}
+        >
+          {t("selectMuscleGroup")}
+        </Text>
       </View>
       <View style={styles.groupContainer}>
         {Array.isArray(muscleGroupsData) &&
@@ -32,37 +43,28 @@ export default function ExercisesTab() {
               <Link
                 key={index}
                 href={{ pathname: "/(app)/(exercises)/[id]", params: { id } }}
+                style={styles.link}
               >
                 <Surface
-                  style={[
-                    styles.surface,
-                    { backgroundColor: theme.colors.primaryContainer },
-                  ]}
-                  elevation={2}
+                  style={[styles.surface, { backgroundColor: "white" }]}
+                  elevation={1}
                 >
+                  <View
+                    style={[
+                      styles.decor,
+                      { backgroundColor: theme.colors.primary },
+                    ]}
+                  />
                   <View style={styles.itemContainer}>
                     <View style={styles.textContainer}>
-                      <Text
-                        style={[styles.title, { color: theme.colors.primary }]}
-                      >
-                        {name}
-                      </Text>
-                      {spec && (
-                        <Text
-                          style={[
-                            styles.title,
-                            { color: theme.colors.primary },
-                          ]}
-                        >
-                          {spec}
-                        </Text>
-                      )}
+                      <Text style={[styles.title]}>{name}</Text>
+                      {spec && <Text style={[styles.title]}>{spec}</Text>}
                     </View>
                     <IconButton
                       icon={({ color }) => (
                         <MaterialCommunityIcons
                           name="chevron-right"
-                          color={color}
+                          color={theme.colors.primary}
                           size={30}
                         />
                       )}
@@ -97,17 +99,31 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 16,
   },
+  link: {},
+  decor: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 7,
+    height: "100%",
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+  },
   surface: {
+    position: "relative",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: 50,
     borderRadius: 8,
+    borderStyle: "solid",
+    borderColor: "#d4d4d4",
+    borderWidth: 1,
   },
   title: {
     fontSize: 20,
-    fontWeight: 700,
+    fontWeight: 400,
     letterSpacing: 1,
     textAlign: "center",
   },

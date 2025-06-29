@@ -1,5 +1,6 @@
 import { auth } from "@/firebase/firebaseConfig";
 import { initI18n } from "@/i18n";
+import { useModeStore } from "@/store/modeStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Redirect, Tabs } from "expo-router";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -9,6 +10,7 @@ import { ActivityIndicator, useTheme } from "react-native-paper";
 
 export default function AppLayout() {
   const theme = useTheme();
+  const { mode } = useModeStore();
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -44,13 +46,15 @@ export default function AppLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: theme.colors.primary,
-        headerTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: "#d4d4d4",
+
         tabBarStyle: {
-          backgroundColor: "#EAEAEA",
+          backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a",
         },
         headerStyle: {
-          backgroundColor: "#EAEAEA",
+          backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a",
         },
+        headerTintColor: mode === "white" ? "#0a0a0a" : "#d4d4d4",
       }}
     >
       <Tabs.Screen

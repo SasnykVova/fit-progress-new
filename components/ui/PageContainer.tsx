@@ -1,3 +1,4 @@
+import { useModeStore } from "@/store/modeStore";
 import { PropsWithChildren } from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -6,8 +7,14 @@ interface IPageContainerProps extends PropsWithChildren {}
 const PageContainer: React.FunctionComponent<IPageContainerProps> = ({
   children,
 }) => {
+  const { mode } = useModeStore();
   return (
-    <View style={[styles.settings, { backgroundColor: "#fff" }]}>
+    <View
+      style={[
+        styles.settings,
+        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+      ]}
+    >
       <View style={styles.wrapper}>{children}</View>
     </View>
   );

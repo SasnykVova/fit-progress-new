@@ -1,6 +1,7 @@
 import { addSetSchema, TAddSetSchema } from "@/helpers/schemas/addSetSchema";
 import { useGetExerciseSets } from "@/services/exercise/getExerciseSets";
 import { useAuthStore } from "@/store/authStore";
+import { useModeStore } from "@/store/modeStore";
 import { globalStyles } from "@/styles/globalStyles";
 import { ISet } from "@/types/exercise/exerciseTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,6 +33,7 @@ export default function Exercise() {
   const [currentEditSet, setCurrentEditSet] = useState<ISet | null>(null);
 
   const theme = useTheme();
+  const { mode } = useModeStore();
   const { t } = useTranslation("muscleGroupTab");
   const { userId } = useAuthStore();
   const { exerciseId: id } = useLocalSearchParams();
@@ -99,11 +101,33 @@ export default function Exercise() {
   ]);
 
   return (
-    <View style={[styles.muscleGroup, { backgroundColor: "#fff" }]}>
-      <ScrollView contentContainerStyle={styles.exreciseGroup}>
+    <View
+      style={[
+        styles.muscleGroup,
+        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+      ]}
+    >
+      <ScrollView
+        contentContainerStyle={styles.exreciseGroup}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.wrapper}>
-          <Text style={globalStyles.h2}>{data?.name}</Text>
-          <Text style={styles.subTitle}>{t("exercise.sets")}</Text>
+          <Text
+            style={[
+              globalStyles.h2,
+              { color: mode === "white" ? "" : "white" },
+            ]}
+          >
+            {data?.name}
+          </Text>
+          <Text
+            style={[
+              styles.subTitle,
+              { color: mode === "white" ? "" : "white" },
+            ]}
+          >
+            {t("exercise.sets")}
+          </Text>
 
           {isLoading ? (
             <ActivityIndicator
@@ -123,7 +147,7 @@ export default function Exercise() {
           ) : (
             <View style={styles.setsContainer}>
               {data?.sets?.map(({ setNumber, weight, reps, id }) => (
-                <Surface key={setNumber} style={styles.set} elevation={3}>
+                <Surface key={setNumber} style={styles.set} elevation={1}>
                   <Text style={styles.textMedium}>
                     {t("exercise.set")} {setNumber}
                   </Text>
@@ -143,6 +167,7 @@ export default function Exercise() {
                     <IconButton
                       icon="square-edit-outline"
                       size={26}
+                      iconColor="#737373"
                       onPress={() =>
                         handleOpenEditSetVisible({
                           setNumber,
@@ -153,8 +178,9 @@ export default function Exercise() {
                       }
                     />
                     <IconButton
-                      icon="delete"
+                      icon="delete-outline"
                       size={26}
+                      iconColor="#dc2626"
                       onPress={() => handleOpenDeleteSetVisible(setNumber, id)}
                     />
                   </View>
@@ -231,6 +257,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 8,
     paddingHorizontal: 8,
+    borderStyle: "solid",
+    borderColor: "#d4d4d4",
+    borderWidth: 1,
+    backgroundColor: "white",
   },
   btnContainer: {
     display: "flex",

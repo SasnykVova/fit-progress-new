@@ -9,13 +9,7 @@ const SettingsSection: React.FunctionComponent<ISettingsSectionProps> = ({
 }) => {
   const theme = useTheme();
   return (
-    <Surface
-      style={[
-        styles.surface,
-        { borderColor: theme.colors.primary, borderWidth: 1 },
-      ]}
-      elevation={4}
-    >
+    <Surface style={[styles.surface]} elevation={1}>
       {children}
     </Surface>
   );
@@ -29,5 +23,9 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     width: "100%",
     borderRadius: 8,
+    borderStyle: "solid",
+    borderColor: "#d4d4d4",
+    borderWidth: 1,
+    backgroundColor: "white",
   },
 });

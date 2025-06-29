@@ -1,3 +1,4 @@
+import { useModeStore } from "@/store/modeStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { ReactNode } from "react";
@@ -14,6 +15,7 @@ const SettingPageLaoyut: React.FunctionComponent<ISettingPageLaoyutProps> = ({
   title,
 }) => {
   const router = useRouter();
+  const { mode } = useModeStore();
   return (
     <View style={styles.root}>
       <Button
@@ -26,7 +28,10 @@ const SettingPageLaoyut: React.FunctionComponent<ISettingPageLaoyutProps> = ({
         Settings
       </Button>
       <View style={styles.header}>
-        <Text style={styles.title} variant="titleLarge">
+        <Text
+          style={[styles.title, { color: mode === "dark" ? "white" : "" }]}
+          variant="titleLarge"
+        >
           {title}
         </Text>
       </View>

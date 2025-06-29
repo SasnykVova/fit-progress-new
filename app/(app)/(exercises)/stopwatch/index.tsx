@@ -1,3 +1,4 @@
+import { useModeStore } from "@/store/modeStore";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,6 +11,7 @@ export default function StopWatch({ initialTime = 0 }) {
   const intervalRef = useRef<number | null>(null);
 
   const theme = useTheme();
+  const { mode } = useModeStore();
   const { t } = useTranslation("muscleGroupTab");
   const router = useRouter();
 
@@ -45,7 +47,10 @@ export default function StopWatch({ initialTime = 0 }) {
   };
   return (
     <View
-      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      style={[
+        styles.container,
+        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+      ]}
     >
       <View style={{ width: 250, display: "flex", alignItems: "center" }}>
         <Text
@@ -63,9 +68,7 @@ export default function StopWatch({ initialTime = 0 }) {
           style={[
             styles.button,
             {
-              backgroundColor: running
-                ? theme.colors.secondary
-                : theme.colors.primary,
+              backgroundColor: running ? "#737373" : theme.colors.primary,
             },
           ]}
           labelStyle={{ fontWeight: "700" }}

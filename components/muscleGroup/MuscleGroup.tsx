@@ -20,11 +20,14 @@ import { useDebounce } from "@/helpers/utils/general/useDebounce";
 
 import { getExerciseGroupTranslationKeyById } from "@/helpers/utils/muscleGroup/getExerciseGroupNameById";
 import { useAuthStore } from "@/store/authStore";
+import { useModeStore } from "@/store/modeStore";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import EmptyExercise from "./EmptyExercise";
 
 export default function MuscleGroup() {
   const theme = useTheme();
+  const { mode } = useModeStore();
   const { id } = useLocalSearchParams();
   const groupId = Array.isArray(id) ? id[0] : (id as string);
 
@@ -70,18 +73,37 @@ export default function MuscleGroup() {
   }, [data, debounceExerciseSearch]);
 
   return (
-    <View style={[styles.muscleGroup, { backgroundColor: "#fff" }]}>
-      <ScrollView contentContainerStyle={styles.exreciseGroup}>
+    <View
+      style={[
+        styles.muscleGroup,
+        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+      ]}
+    >
+      <View style={styles.exreciseGroup}>
         <View style={styles.wrapper}>
-          <Text style={globalStyles.h2}>{groupName}</Text>
+          <Text
+            style={[
+              globalStyles.h2,
+              { color: mode === "white" ? "" : "white" },
+            ]}
+          >
+            {groupName}
+          </Text>
           <Searchbar
             elevation={1}
             placeholder={t("muscleGroup.search")}
             value={exerciseSearch}
             onChangeText={setExerciseSearch}
-            style={styles.search}
+            style={[styles.search, { backgroundColor: theme.colors.surface }]}
           />
-          <Text style={styles.subTitle}>{t("muscleGroup.subTitle")}</Text>
+          <Text
+            style={[
+              styles.subTitle,
+              { color: mode === "white" ? "" : "white" },
+            ]}
+          >
+            {t("muscleGroup.subTitle")}
+          </Text>
 
           {isLoading ? (
             <View style={{ marginVertical: 150 }}>
@@ -103,47 +125,75 @@ export default function MuscleGroup() {
               />
             </View>
           ) : (
-            <View style={styles.exercisesContainer}>
-              {filteredExercises?.map(
-                ({ id, name }: { id: string; name: string }) => (
-                  <Link
-                    href={{
-                      pathname: "/(app)/(exercises)/[id]/[exerciseId]",
-                      params: { id: "1", exerciseId: id },
-                    }}
-                    key={id}
-                  >
-                    <Surface style={styles.exercise} elevation={3}>
-                      <Text
-                        variant="titleMedium"
-                        style={[
-                          styles.exerciseText,
-                          { color: theme.colors.primary },
-                        ]}
-                      >
-                        {name}
-                      </Text>
-                      <View style={styles.iconContainer}>
-                        <IconButton
-                          icon="delete"
-                          size={26}
-                          iconColor={theme.colors.secondary}
-                          onPress={() => showDialog(name, id)}
+            <ScrollView
+              style={styles.scrollList}
+              showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.exercisesContainer}>
+                {filteredExercises?.map(
+                  ({ id, name }: { id: string; name: string }) => (
+                    <View key={id}>
+                      <Surface style={styles.exercise} elevation={1}>
+                        <View
+                          style={[
+                            styles.decor,
+                            { backgroundColor: theme.colors.primary },
+                          ]}
                         />
-                        <IconButton
-                          icon="chevron-right"
-                          style={{ margin: 0, padding: 0 }}
-                          size={25}
-                        />
-                      </View>
-                    </Surface>
-                  </Link>
-                )
-              )}
-            </View>
+                        <ScrollView
+                          horizontal
+                          showsHorizontalScrollIndicator={false}
+                          style={styles.exTextContainer}
+                        >
+                          <Link
+                            href={{
+                              pathname: "/(app)/(exercises)/[id]/[exerciseId]",
+                              params: { id: "1", exerciseId: id },
+                            }}
+                          >
+                            <Text
+                              variant="titleMedium"
+                              style={[styles.exerciseText]}
+                            >
+                              {name}
+                            </Text>
+                          </Link>
+                        </ScrollView>
+
+                        <View style={styles.iconContainer}>
+                          <IconButton
+                            icon="delete-outline"
+                            size={26}
+                            iconColor="#dc2626"
+                            onPress={() => showDialog(name, id)}
+                          />
+                          <Link
+                            href={{
+                              pathname: "/(app)/(exercises)/[id]/[exerciseId]",
+                              params: { id: "1", exerciseId: id },
+                            }}
+                          >
+                            <IconButton
+                              icon={({ color }) => (
+                                <MaterialCommunityIcons
+                                  name="chevron-right"
+                                  color={theme.colors.primary}
+                                  style={{ margin: 0, padding: 0 }}
+                                  size={30}
+                                />
+                              )}
+                            />
+                          </Link>
+                        </View>
+                      </Surface>
+                    </View>
+                  )
+                )}
+              </View>
+            </ScrollView>
           )}
         </View>
-      </ScrollView>
+      </View>
       <DeleteExerciseDialog
         visible={visible}
         onClose={hideDialog}
@@ -171,9 +221,9 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   exreciseGroup: {
+    flex: 1,
     paddingHorizontal: 16,
     paddingVertical: 16,
-    paddingBottom: "115%",
   },
   wrapper: {
     flex: 1,
@@ -196,6 +246,11 @@ const styles = StyleSheet.create({
     gap: 16,
     overflowY: "auto",
   },
+  scrollList: {
+    flex: 1,
+    maxHeight: 500,
+    paddingHorizontal: 2,
+  },
   exercise: {
     paddingLeft: 16,
     borderRadius: 8,
@@ -205,6 +260,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    position: "relative",
+    borderStyle: "solid",
+    borderColor: "#d4d4d4",
+    borderWidth: 1,
+    backgroundColor: "white",
+  },
+  decor: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 7,
+    height: "100%",
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+  },
+  exTextContainer: {
+    flexGrow: 1,
+    width: "75%",
   },
   exerciseText: {
     fontSize: 18,

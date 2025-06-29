@@ -2,6 +2,7 @@ import OtherSettings from "@/components/settings/OtherSettings";
 import { getInitials } from "@/helpers/utils/general/getUserInitials";
 import { useLoguot } from "@/services/authService/logout";
 import { useAuthStore } from "@/store/authStore";
+import { useModeStore } from "@/store/modeStore";
 import { Link, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
@@ -16,6 +17,7 @@ import {
 
 export default function SettingsTab() {
   const router = useRouter();
+  const { mode } = useModeStore();
   const theme = useTheme();
   const { mutate: logout, isPending, isSuccess } = useLoguot();
 
@@ -32,26 +34,32 @@ export default function SettingsTab() {
   }, [isSuccess, router]);
 
   return (
-    <View style={[styles.settings, { backgroundColor: "#fff" }]}>
+    <View
+      style={[
+        styles.settings,
+        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+      ]}
+    >
       <View style={styles.wrapper}>
         <View style={styles.profileContainer}>
-          <Text variant="titleLarge" style={styles.titleLarge}>
+          <Text
+            variant="titleLarge"
+            style={[
+              styles.titleLarge,
+              { color: mode === "white" ? "" : "white" },
+            ]}
+          >
             Profile
           </Text>
           <Link href={".."}>
-            <Surface
-              style={[
-                styles.surface,
-                { borderColor: theme.colors.primary, borderWidth: 1 },
-              ]}
-              elevation={4}
-            >
+            <Surface style={[styles.surface]} elevation={1}>
               <View style={styles.userAvatarContainer}>
                 <Avatar.Text size={44} label={getInitials(userName)} />
                 <Text variant="headlineSmall">{userName}</Text>
               </View>
               <IconButton
                 icon="chevron-right"
+                iconColor={theme.colors.primary}
                 style={{ margin: 0, padding: 0 }}
                 size={30}
               />
@@ -106,6 +114,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    borderStyle: "solid",
+    borderColor: "#d4d4d4",
+    borderWidth: 1,
+    backgroundColor: "white",
   },
   userAvatarContainer: {
     display: "flex",

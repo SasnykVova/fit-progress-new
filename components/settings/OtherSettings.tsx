@@ -1,3 +1,4 @@
+import { useModeStore } from "@/store/modeStore";
 import { Route, useRouter } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Divider, IconButton, Text, useTheme } from "react-native-paper";
@@ -6,8 +7,10 @@ import SettingsSection from "./SettingsSection";
 interface IOtherSettingsProps {}
 
 const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
+  const { mode } = useModeStore();
   const theme = useTheme();
   const router = useRouter();
+
   const otherSettingsData = [
     {
       name: "Password",
@@ -17,7 +20,7 @@ const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
     {
       name: "Themes",
       icon: "palette-outline",
-      href: "/",
+      href: "/themes",
     },
     { name: "Language", icon: "web", href: "/(app)/(settings)/language" },
     {
@@ -28,7 +31,12 @@ const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
   ];
   return (
     <View style={styles.otherSettings}>
-      <Text variant="titleMedium">OtherSettings</Text>
+      <Text
+        variant="titleMedium"
+        style={[{ color: mode === "white" ? "" : "white" }]}
+      >
+        OtherSettings
+      </Text>
       <SettingsSection>
         <View style={styles.childContainer}>
           {otherSettingsData.map(({ name, icon, href }, index) => (
@@ -61,6 +69,7 @@ const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
                 </View>
                 <IconButton
                   icon="chevron-right"
+                  iconColor={theme.colors.primary}
                   style={{ padding: 0, margin: 0 }}
                 />
               </View>
