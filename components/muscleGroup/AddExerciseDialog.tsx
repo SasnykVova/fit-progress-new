@@ -1,11 +1,12 @@
 import { useAddExercise } from "@/services/muscleGroup/AddExercise";
+import { useModeStore } from "@/store/modeStore";
 import { useLocalSearchParams } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import React, { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import Dialog from "../ui/Dialog";
 
 interface IAddExFrom {
@@ -24,6 +25,8 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
 }) => {
   const { control, handleSubmit, reset } = useFormContext<IAddExFrom>();
   const { t } = useTranslation("muscleGroupTab");
+  const { mode } = useModeStore();
+  const theme = useTheme();
   const {
     mutate: addExercise,
     isPending,
@@ -65,13 +68,25 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
       onDismiss={onDismiss}
       actions={
         <View style={styles.actionContainer}>
-          <Button onPress={onDismiss} disabled={isPending}>
+          <Button
+            onPress={onDismiss}
+            disabled={isPending}
+            labelStyle={{
+              color: isPending ? theme.colors.surfaceDisabled : "",
+            }}
+          >
             {t("muscleGroup.cancel")}
           </Button>
           <Button
             onPress={handleSubmit(onSubmit)}
             disabled={isPending}
             loading={isPending}
+            style={[
+              isPending &&
+                mode === "dark" && {
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                },
+            ]}
           >
             {t("muscleGroup.add")}
           </Button>
@@ -87,7 +102,15 @@ const AddExerciseDialog: React.FunctionComponent<IAddExerciseDialogProps> = ({
               label={t("muscleGroup.exerciseName")}
               placeholder={t("muscleGroup.exerciseNamePlaceholder")}
               mode="outlined"
-              style={{ height: 40 }}
+              style={[
+                {
+                  height: 40,
+                  backgroundColor:
+                    mode === "dark" ? theme.colors.secondaryContainer : "white",
+                  borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                },
+              ]}
+              contentStyle={{ color: mode === "dark" ? "white" : "" }}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}

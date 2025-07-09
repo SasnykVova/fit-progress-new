@@ -1,12 +1,13 @@
 import { TAddSetSchema } from "@/helpers/schemas/addSetSchema";
 import { useAddExerciseSet } from "@/services/exercise/addExerciseSet";
 import { useAuthStore } from "@/store/authStore";
+import { useModeStore } from "@/store/modeStore";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import Dialog from "../ui/Dialog";
 
 interface IAddSetDialogProps {
@@ -24,6 +25,8 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
 }) => {
   const { control, handleSubmit, reset } = useFormContext<TAddSetSchema>();
   const { t } = useTranslation("muscleGroupTab");
+  const { mode } = useModeStore();
+  const theme = useTheme();
   const {
     mutate: addExerciseSet,
     isPending,
@@ -77,13 +80,25 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
       onDismiss={onDismiss}
       actions={
         <View style={styles.actionContainer}>
-          <Button onPress={handleCloseModal} disabled={isPending}>
+          <Button
+            onPress={handleCloseModal}
+            disabled={isPending}
+            labelStyle={{
+              color: isPending ? theme.colors.surfaceDisabled : "",
+            }}
+          >
             {t("exercise.cancel")}
           </Button>
           <Button
             onPress={handleSubmit(onSubmit)}
             disabled={isPending}
             loading={isPending}
+            style={[
+              isPending &&
+                mode === "dark" && {
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                },
+            ]}
           >
             {t("exercise.add")}
           </Button>
@@ -101,11 +116,21 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
                   label={t("exercise.weightField")}
                   placeholder={t("exercise.weightPlaceholder")}
                   mode="outlined"
-                  style={{ height: 40 }}
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   keyboardType="numeric"
+                  style={[
+                    {
+                      height: 40,
+                      backgroundColor:
+                        mode === "dark"
+                          ? theme.colors.secondaryContainer
+                          : "white",
+                      borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                    },
+                  ]}
+                  contentStyle={{ color: mode === "dark" ? "white" : "" }}
                 />
                 {fieldState.error && (
                   <Text style={{ color: "red" }}>
@@ -126,11 +151,21 @@ const AddSetDialog: React.FunctionComponent<IAddSetDialogProps> = ({
                   label={t("exercise.repField")}
                   placeholder={t("exercise.repsPlaceHolder")}
                   mode="outlined"
-                  style={{ height: 40 }}
                   value={value}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   keyboardType="numeric"
+                  style={[
+                    {
+                      height: 40,
+                      backgroundColor:
+                        mode === "dark"
+                          ? theme.colors.secondaryContainer
+                          : "white",
+                      borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                    },
+                  ]}
+                  contentStyle={{ color: mode === "dark" ? "white" : "" }}
                 />
                 {fieldState.error && (
                   <Text style={{ color: "red" }}>

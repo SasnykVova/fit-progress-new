@@ -4,6 +4,7 @@ import { Button, Text, useTheme } from "react-native-paper";
 
 import { useDeleteExercise } from "@/services/muscleGroup/DeleteExercise";
 import { useAuthStore } from "@/store/authStore";
+import { useModeStore } from "@/store/modeStore";
 import { Trans, useTranslation } from "react-i18next";
 import Dialog from "../ui/Dialog";
 
@@ -27,6 +28,7 @@ const DeleteExerciseDialog: React.FunctionComponent<
   setDeleteExerciseId,
 }) => {
   const theme = useTheme();
+  const { mode } = useModeStore();
   const { t } = useTranslation("muscleGroupTab");
   const {
     mutate: deleteExercise,
@@ -59,18 +61,32 @@ const DeleteExerciseDialog: React.FunctionComponent<
       onDismiss={onClose}
       actions={
         <View style={styles.actionContainer}>
-          <Button onPress={onClose}>{t("muscleGroup.cancel")}</Button>
+          <Button
+            onPress={onClose}
+            disabled={isPending}
+            labelStyle={{
+              color: isPending ? theme.colors.surfaceDisabled : "",
+            }}
+          >
+            {t("muscleGroup.cancel")}
+          </Button>
           <Button
             onPress={handleDeleteExercise}
             disabled={isPending}
             loading={isPending}
+            style={[
+              isPending &&
+                mode === "dark" && {
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                },
+            ]}
           >
             {t("muscleGroup.delete")}
           </Button>
         </View>
       }
     >
-      <Text>
+      <Text style={[{ color: mode === "white" ? "" : "white" }]}>
         <Trans
           i18nKey="muscleGroup.deleteExConfirmText"
           ns="muscleGroupTab"
@@ -80,7 +96,7 @@ const DeleteExerciseDialog: React.FunctionComponent<
               <Text
                 style={{
                   textDecorationLine: "underline",
-                  color: theme.colors.secondary,
+                  color: theme.colors.primary,
                 }}
               >
                 {""}

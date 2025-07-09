@@ -49,7 +49,10 @@ export default function StopWatch({ initialTime = 0 }) {
     <View
       style={[
         styles.container,
-        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+        {
+          backgroundColor:
+            mode === "white" ? "#fafaf9" : theme.colors.onPrimary,
+        },
       ]}
     >
       <View style={{ width: 250, display: "flex", alignItems: "center" }}>
@@ -71,7 +74,7 @@ export default function StopWatch({ initialTime = 0 }) {
               backgroundColor: running ? "#737373" : theme.colors.primary,
             },
           ]}
-          labelStyle={{ fontWeight: "700" }}
+          labelStyle={[{ fontWeight: "700", color: "#fff" }]}
           contentStyle={{ height: 50, width: 150 }}
         >
           {running ? t("stopWatch.pause") : t("stopWatch.start")}
@@ -95,11 +98,17 @@ export default function StopWatch({ initialTime = 0 }) {
         <Button
           mode="contained"
           icon={(props) => (
-            <Icon source="keyboard-backspace" size={25} color={props.color} />
+            <Icon source="keyboard-backspace" size={25} color="white" />
           )}
           contentStyle={{ height: 50, width: 300 }}
-          labelStyle={{ fontSize: 16, fontWeight: "700" }}
-          style={styles.backButton}
+          labelStyle={[
+            {
+              fontSize: 16,
+              fontWeight: "700",
+              color: "#fff",
+            },
+          ]}
+          style={[styles.backButton]}
           onPress={() => router.back()}
         >
           {t("stopWatch.back")}

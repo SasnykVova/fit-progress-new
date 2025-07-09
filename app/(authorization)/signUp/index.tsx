@@ -9,10 +9,12 @@ import {
 
 import { getRegisterErrorMessage } from "@/helpers/utils/register/getRegisterErrorMessage";
 import { useSignUp } from "@/services/authService/register";
+import { useModeStore } from "@/store/modeStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import Gap from "../../../components/ui/Gap";
 import {
   signUpSchema,
@@ -26,6 +28,8 @@ export default function SignUp() {
 
   const theme = useTheme();
   const router = useRouter();
+  const { t } = useTranslation("home");
+  const { mode } = useModeStore();
 
   const { mutate: signUp, isPending, isSuccess, isError, error } = useSignUp();
 
@@ -49,7 +53,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (isSuccess) {
-      router.replace("/");
+      router.replace("/(authorization)/login");
       reset();
     }
   }, [isSuccess, router, reset]);
@@ -61,17 +65,25 @@ export default function SignUp() {
   }, [isError, reset]);
 
   return (
-    <View style={styles.page}>
+    <View
+      style={[
+        styles.page,
+        {
+          backgroundColor:
+            mode === "white" ? "#fafaf9" : theme.colors.onPrimary,
+        },
+      ]}
+    >
       <View style={styles.container}>
         <Text
-          style={[styles.title, { color: theme.colors.primary }]}
+          style={[styles.title, { color: mode === "dark" ? "#fff" : "" }]}
           variant="titleMedium"
         >
-          Sign up
+          {t("signUpScreen.signUp")}
         </Text>
         <Gap />
-        <Text style={[styles.creteAc, { color: theme.colors.secondary }]}>
-          Create an account
+        <Text style={[styles.creteAc, { color: theme.colors.tertiary }]}>
+          {t("signUpScreen.createAcc")}
         </Text>
         <Gap />
         <Controller
@@ -79,9 +91,17 @@ export default function SignUp() {
           control={control}
           render={({ field: { value, onChange, onBlur } }) => (
             <TextInput
-              style={styles.input}
+              style={[
+                {
+                  height: 40,
+                  backgroundColor:
+                    mode === "dark" ? theme.colors.secondaryContainer : "white",
+                  borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                },
+              ]}
+              contentStyle={{ color: mode === "dark" ? "white" : "" }}
               mode="outlined"
-              label="Name"
+              label={t("signUpScreen.name")}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -96,9 +116,17 @@ export default function SignUp() {
           control={control}
           render={({ field: { value, onChange, onBlur } }) => (
             <TextInput
-              style={styles.input}
+              style={[
+                {
+                  height: 40,
+                  backgroundColor:
+                    mode === "dark" ? theme.colors.secondaryContainer : "white",
+                  borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                },
+              ]}
+              contentStyle={{ color: mode === "dark" ? "white" : "" }}
               mode="outlined"
-              label="Email"
+              label={t("signUpScreen.email")}
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -115,9 +143,17 @@ export default function SignUp() {
           control={control}
           render={({ field: { value, onChange, onBlur } }) => (
             <TextInput
-              style={styles.input}
+              style={[
+                {
+                  height: 40,
+                  backgroundColor:
+                    mode === "dark" ? theme.colors.secondaryContainer : "white",
+                  borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                },
+              ]}
+              contentStyle={{ color: mode === "dark" ? "white" : "" }}
               mode="outlined"
-              label="Password"
+              label={t("signUpScreen.password")}
               secureTextEntry={!passwordVisible}
               value={value}
               onChangeText={onChange}
@@ -141,9 +177,17 @@ export default function SignUp() {
           control={control}
           render={({ field: { value, onChange, onBlur } }) => (
             <TextInput
-              style={styles.input}
+              style={[
+                {
+                  height: 40,
+                  backgroundColor:
+                    mode === "dark" ? theme.colors.secondaryContainer : "white",
+                  borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                },
+              ]}
+              contentStyle={{ color: mode === "dark" ? "white" : "" }}
               mode="outlined"
-              label="Password"
+              label={t("signUpScreen.repeatPass")}
               secureTextEntry={!repeatPasswordVisible}
               value={value}
               onChangeText={onChange}
@@ -164,22 +208,23 @@ export default function SignUp() {
         <Gap size={32} />
         <Button
           style={styles.button}
+          labelStyle={{ color: "#fff" }}
           mode="contained"
           onPress={handleSubmit(onSubmit)}
           loading={isPending}
           disabled={isPending}
         >
-          SIGN UP
+          {t("signUpScreen.signUpBtn")}
         </Button>
         <View style={styles.loginContainer}>
-          <Text
-            style={[styles.noAccText, { color: theme.colors.secondary }]}
-          >{`Already have an accaunt?`}</Text>
+          <Text style={[styles.noAccText, { color: theme.colors.tertiary }]}>
+            {t("signUpScreen.haveAcc")}
+          </Text>
           <Button
             labelStyle={styles.singUpButton}
             onPress={() => router.replace("/(authorization)/login")}
           >
-            Sign in
+            {t("signUpScreen.signIn")}
           </Button>
         </View>
       </View>

@@ -8,6 +8,11 @@ export const purpleTheme = {
     surface: "#c4b5fd",
     primaryContainer: "#c4b5fd",
     secondary: "#e9d5ff",
+    tertiary: "#a3a3a3",
+    secondaryContainer: "#232332",
+    tertiaryContainer: "#64656f",
+    onPrimary: "#1a1a24",
+    surfaceDisabled: "#737373",
   },
 };
 
@@ -19,6 +24,11 @@ export const blueTheme = {
     surface: "#93c5fd",
     primaryContainer: "#93c5fd",
     secondary: "#bfdbfe",
+    tertiary: "#a3a3a3",
+    secondaryContainer: "#232332",
+    tertiaryContainer: "#64656f",
+    onPrimary: "#1a1a24",
+    surfaceDisabled: "#737373",
   },
 };
 
@@ -32,5 +42,10 @@ export const pinkTheme = {
     surface: "#fbcfe8",
     primaryContainer: "#fbcfe8",
     text: "#000000",
+    tertiary: "#a3a3a3",
+    secondaryContainer: "#232332",
+    tertiaryContainer: "#64656f",
+    onPrimary: "#1a1a24",
+    surfaceDisabled: "#737373",
   },
 };

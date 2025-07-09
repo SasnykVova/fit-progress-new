@@ -25,7 +25,10 @@ export default function ExercisesTab() {
     <View
       style={[
         styles.exercises,
-        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+        {
+          backgroundColor:
+            mode === "white" ? "#fafaf9" : theme.colors.onPrimary,
+        },
       ]}
     >
       <View style={styles.titleContainer}>
@@ -46,7 +49,16 @@ export default function ExercisesTab() {
                 style={styles.link}
               >
                 <Surface
-                  style={[styles.surface, { backgroundColor: "white" }]}
+                  style={[
+                    styles.surface,
+                    {
+                      backgroundColor:
+                        mode === "dark"
+                          ? theme.colors.secondaryContainer
+                          : "white",
+                      borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                    },
+                  ]}
                   elevation={1}
                 >
                   <View
@@ -57,8 +69,24 @@ export default function ExercisesTab() {
                   />
                   <View style={styles.itemContainer}>
                     <View style={styles.textContainer}>
-                      <Text style={[styles.title]}>{name}</Text>
-                      {spec && <Text style={[styles.title]}>{spec}</Text>}
+                      <Text
+                        style={[
+                          styles.title,
+                          { color: mode === "dark" ? "white" : "" },
+                        ]}
+                      >
+                        {name}
+                      </Text>
+                      {spec && (
+                        <Text
+                          style={[
+                            styles.title,
+                            { color: mode === "dark" ? "white" : "" },
+                          ]}
+                        >
+                          {spec}
+                        </Text>
+                      )}
                     </View>
                     <IconButton
                       icon={({ color }) => (
@@ -118,7 +146,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 8,
     borderStyle: "solid",
-    borderColor: "#d4d4d4",
+
     borderWidth: 1,
   },
   title: {

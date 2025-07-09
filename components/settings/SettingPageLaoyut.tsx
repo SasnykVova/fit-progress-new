@@ -2,6 +2,7 @@ import { useModeStore } from "@/store/modeStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 
@@ -16,6 +17,7 @@ const SettingPageLaoyut: React.FunctionComponent<ISettingPageLaoyutProps> = ({
 }) => {
   const router = useRouter();
   const { mode } = useModeStore();
+  const { t } = useTranslation("home");
   return (
     <View style={styles.root}>
       <Button
@@ -25,7 +27,7 @@ const SettingPageLaoyut: React.FunctionComponent<ISettingPageLaoyutProps> = ({
         )}
         onPress={() => router.replace("/(app)/(settings)")}
       >
-        Settings
+        {t("settings")}
       </Button>
       <View style={styles.header}>
         <Text

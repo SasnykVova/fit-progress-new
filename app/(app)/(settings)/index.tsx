@@ -5,6 +5,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useModeStore } from "@/store/modeStore";
 import { Link, useRouter } from "expo-router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import {
   Avatar,
@@ -17,6 +18,7 @@ import {
 
 export default function SettingsTab() {
   const router = useRouter();
+  const { t } = useTranslation("settingsTab");
   const { mode } = useModeStore();
   const theme = useTheme();
   const { mutate: logout, isPending, isSuccess } = useLoguot();
@@ -37,7 +39,10 @@ export default function SettingsTab() {
     <View
       style={[
         styles.settings,
-        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+        {
+          backgroundColor:
+            mode === "white" ? "#fafaf9" : theme.colors.onPrimary,
+        },
       ]}
     >
       <View style={styles.wrapper}>
@@ -49,13 +54,28 @@ export default function SettingsTab() {
               { color: mode === "white" ? "" : "white" },
             ]}
           >
-            Profile
+            {t("profile")}
           </Text>
-          <Link href={".."}>
-            <Surface style={[styles.surface]} elevation={1}>
+          <Link href={"/profile"}>
+            <Surface
+              style={[
+                styles.surface,
+                {
+                  backgroundColor:
+                    mode === "dark" ? theme.colors.secondaryContainer : "white",
+                  borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                },
+              ]}
+              elevation={1}
+            >
               <View style={styles.userAvatarContainer}>
                 <Avatar.Text size={44} label={getInitials(userName)} />
-                <Text variant="headlineSmall">{userName}</Text>
+                <Text
+                  variant="headlineSmall"
+                  style={[{ color: mode === "dark" ? "#fff" : "" }]}
+                >
+                  {userName}
+                </Text>
               </View>
               <IconButton
                 icon="chevron-right"
@@ -73,10 +93,10 @@ export default function SettingsTab() {
           onPress={handleLogout}
           icon="logout"
           loading={isPending}
-          labelStyle={{ fontSize: 20 }}
+          labelStyle={{ fontSize: 20, color: "#fff" }}
           contentStyle={{ height: 50 }}
         >
-          Log out
+          {t("logOut")}
         </Button>
       </View>
     </View>

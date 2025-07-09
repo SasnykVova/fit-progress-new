@@ -14,6 +14,48 @@
       "- open its detail page",
       "- add sets with repetitions and weight"
     ]
+  },
+  "home": "Home",
+  "exercises": "Exercise",
+  "settings": "Settings",
+  "loginScreen": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginBtn": "LOGIN",
+    "noAcc": "Don't have an account ?",
+    "signUp": "Sign up",
+    "emailNotConfirmed": "Your email has not been confirmed yet!",
+    "resentLetter": "The letter has been resent!",
+    "noConfDialog": "Your email has not been confirmed yet.",
+    "checkEmail": "Please check your email.",
+    "confirmedBtn": "I confirmed.",
+    "resMesBtn": "Resend message",
+    "forgotPass": "Forgot your password?",
+    "resetIt": "Reset it"
+  },
+  "signUpScreen": {
+    "signUp": "Sign up",
+    "createAcc": "Create an account",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "repeatPass": "Repeat password",
+    "signUpBtn": "SIGN UP",
+    "haveAcc": "Already have an accaunt ?",
+    "signIn": "Sign in"
+  },
+  "resetePasswordScreen": {
+    "resetPassTitle": "Reset Password",
+    "weSent": "Enter your email address and we’ll send you the next steps.",
+    "resetPassBtn": "Reset password",
+    "emailValid": "Invalid email address",
+    "backToLogin": "Go back to login",
+    "loginLink": "Login",
+    "emailSendSuccess": "Email Sent Successfully!",
+    "sendDialogSuccessText": "We’ve sent a password reset link to your email. Please check your inbox and follow the instructions to reset your password.",
+    "closeBtn": "Close",
+    "backBtn": "Back to Login"
   }
 }
 

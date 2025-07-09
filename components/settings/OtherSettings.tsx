@@ -1,5 +1,6 @@
 import { useModeStore } from "@/store/modeStore";
 import { Route, useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Divider, IconButton, Text, useTheme } from "react-native-paper";
 import SettingsSection from "./SettingsSection";
@@ -8,25 +9,26 @@ interface IOtherSettingsProps {}
 
 const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
   const { mode } = useModeStore();
+  const { t } = useTranslation("settingsTab");
   const theme = useTheme();
   const router = useRouter();
 
   const otherSettingsData = [
     {
-      name: "Password",
+      name: t("password"),
       icon: "lock-outline",
-      href: "/",
+      href: "/(app)/(settings)/password",
     },
     {
-      name: "Themes",
+      name: t("appearance"),
       icon: "palette-outline",
       href: "/themes",
     },
-    { name: "Language", icon: "web", href: "/(app)/(settings)/language" },
+    { name: t("languages"), icon: "web", href: "/(app)/(settings)/language" },
     {
-      name: "Deactivate my account",
+      name: t("deleteAccount"),
       icon: "delete-outline",
-      href: "/",
+      href: "/deleteAccount",
     },
   ];
   return (
@@ -35,7 +37,7 @@ const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
         variant="titleMedium"
         style={[{ color: mode === "white" ? "" : "white" }]}
       >
-        OtherSettings
+        {t("otherSettings")}
       </Text>
       <SettingsSection>
         <View style={styles.childContainer}>
@@ -48,9 +50,9 @@ const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
                 <View style={styles.iconTextContainer}>
                   <IconButton
                     iconColor={
-                      name === "Deactivate my account"
+                      name === t("deleteAccount")
                         ? theme.colors.error
-                        : theme.colors.secondary
+                        : "#a3a3a3"
                     }
                     icon={icon}
                     style={styles.iconButton}
@@ -59,8 +61,10 @@ const OtherSettings: React.FunctionComponent<IOtherSettingsProps> = (props) => {
                     variant="titleMedium"
                     style={{
                       color:
-                        name === "Deactivate my account"
+                        name === t("deleteAccount")
                           ? theme.colors.error
+                          : mode === "dark"
+                          ? "#fff"
                           : "",
                     }}
                   >

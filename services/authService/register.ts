@@ -2,7 +2,10 @@ import { auth, firebaseDB } from "@/firebase/firebaseConfig";
 import { useAuthStore } from "@/store/authStore";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
 const signUp = async (email: string, password: string, name: string) => {
@@ -13,11 +16,15 @@ const signUp = async (email: string, password: string, name: string) => {
       password
     );
     const user = userCredential.user;
+    await sendEmailVerification(user);
 
     await setDoc(doc(firebaseDB, "users", user.uid), {
       name,
       email,
       exercises: [],
+      height: "",
+      weight: "",
+      gender: "",
     });
 
     const token = await userCredential.user.getIdToken();

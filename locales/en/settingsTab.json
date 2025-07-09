@@ -1,0 +1,63 @@
+{
+  "profile": "Profile",
+  "otherSettings": "Other Settings",
+  "password": "Password",
+  "appearance": "Appearance",
+  "languages": "Languages",
+  "deleteAccount": "Delete Account",
+  "logOut": "Log out",
+  "profileScreen": {
+    "profile": "Profile",
+    "name": "Name",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "height": "Height (cm)",
+    "weight": "Weight (kg)",
+    "bmi": "BMI (Body mass index)",
+    "noBMI": "If BMI is not displayed, enter your weight, height, and select gender.",
+    "yourBMI": "Your BMI:",
+    "bmiType": {
+        "underweight": "Underweight",
+        "normal": "Normal",
+        "overweight": "Overweight",
+        "obese": "Obese"
+    },
+    "saveChanges": "Save changes",
+    "updateSucces": "Profile info updated!"
+  },
+
+  "passwordScreen": {
+    "password": "Password",
+    "changePass": "Change password:",
+    "currentPass": "Current password",
+    "newPass": "New password",
+    "repeatNewPass": "Repeat new password",
+    "changePassBtn": "Change Password",
+    "updateSuccess": "Password was successfully updated!"
+  },
+  "themesScreen": {
+    "appearance": "Appearance",
+    "selectThem": "Select theme:",
+    "purple": "Purple (default)",
+    "blue": "Blue",
+    "pink": "Pink",
+    "selectMode": "Select mode:",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "languagesScreen": {
+    "languages": "Languages",
+    "selectLanguages": "Select languages:"
+  },
+  "deleteAccountScreen": {
+    "deleteAccount": "Delete Account",
+    "subTitle": "Press button if you want delete your account",
+    "deleteAccBtn": "Delete Account",
+    "confirmText": "Do you really want delete your account ?",
+    "enterPass": "Enter your password in field",
+    "password": "Password",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  }
+}

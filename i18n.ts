@@ -10,6 +10,9 @@ import ukHome from "./locales/uk/home.json";
 import enMuscleGroupTab from "./locales/en/muscleGroupTab.json";
 import ukMuscleGroupTab from "./locales/uk/muscleGroupTab.json";
 
+import enSettingsTab from "./locales/en/settingsTab.json";
+import ukSettingsTab from "./locales/uk/settingsTab.json";
+
 export const initI18n = async () => {
   const storedLang = useLanguageStore.getState().language;
 
@@ -23,16 +26,18 @@ export const initI18n = async () => {
     compatibilityJSON: "v4",
     lng: detectedLang,
     fallbackLng: ELanguages.en,
-    ns: ["home", "muscleGroupTab"],
+    ns: ["home", "muscleGroupTab", "settingsTab"],
 
     resources: {
       en: {
         home: enHome,
         muscleGroupTab: enMuscleGroupTab,
+        settingsTab: enSettingsTab,
       },
       uk: {
         home: ukHome,
         muscleGroupTab: ukMuscleGroupTab,
+        settingsTab: ukSettingsTab,
       },
     },
     interpolation: {

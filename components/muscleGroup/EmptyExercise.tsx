@@ -1,6 +1,7 @@
+import { useModeStore } from "@/store/modeStore";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Icon, Text } from "react-native-paper";
+import { Icon, Text, useTheme } from "react-native-paper";
 
 interface IEmptyExerciseProps {
   title?: string;
@@ -11,11 +12,25 @@ const EmptyExercise: React.FunctionComponent<IEmptyExerciseProps> = ({
   title,
   text,
 }) => {
+  const theme = useTheme();
+  const { mode } = useModeStore();
   return (
     <View style={styles.emptyContainer}>
-      <Icon source="clipboard-text-off-outline" size={40} />
-      <Text style={styles.emptyTitle}>{title}</Text>
-      <Text style={styles.emptyText}>{text}</Text>
+      <Icon
+        source="clipboard-text-off-outline"
+        size={40}
+        color={theme.colors.tertiary}
+      />
+      <Text
+        style={[styles.emptyTitle, { color: mode === "white" ? "" : "white" }]}
+      >
+        {title}
+      </Text>
+      <Text
+        style={[styles.emptyText, { color: mode === "white" ? "" : "white" }]}
+      >
+        {text}
+      </Text>
     </View>
   );
 };

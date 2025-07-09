@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Fit progress",
+    "name": "Fit Progress",
     "slug": "fit-progress-new",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/fit-progress-icon.png",
+    "icon": "./assets/images/fit-progress-logo-text.png",
     "scheme": "fitprogressnew",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,15 +13,20 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/fit-progress-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/fit-progress-logo-text.png",
+        "backgroundColor": "#1a1a24"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/fit-progress-icon.png"
+      "favicon": "./assets/images/fit-progress-logo-text.png"
+    },
+    "splash": {
+      "backgroundColor": "#1a1a24",
+      "resizeMode": "contain",
+      "image": "./assets/images/gradient.jpg"
     },
     "plugins": [
       "expo-router",
@@ -31,7 +36,7 @@
           "image": "./assets/images/gradient.jpg",
           "imageWidth": 200,
           "resizeMode": "cover",
-          "backgroundColor": "#8e2de2"
+          "backgroundColor": "#1a1a24"
         }
       ],
       "expo-secure-store"

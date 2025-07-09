@@ -76,7 +76,10 @@ export default function MuscleGroup() {
     <View
       style={[
         styles.muscleGroup,
-        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+        {
+          backgroundColor:
+            mode === "white" ? "#fafaf9" : theme.colors.onPrimary,
+        },
       ]}
     >
       <View style={styles.exreciseGroup}>
@@ -118,12 +121,10 @@ export default function MuscleGroup() {
               />
             </View>
           ) : data?.length === 0 ? (
-            <View style={{ marginVertical: 150 }}>
-              <EmptyExercise
-                title={t("muscleGroup.emptyTitle")}
-                text={t("muscleGroup.emptyText")}
-              />
-            </View>
+            <EmptyExercise
+              title={t("muscleGroup.emptyTitle")}
+              text={t("muscleGroup.emptyText")}
+            />
           ) : (
             <ScrollView
               style={styles.scrollList}
@@ -133,7 +134,20 @@ export default function MuscleGroup() {
                 {filteredExercises?.map(
                   ({ id, name }: { id: string; name: string }) => (
                     <View key={id}>
-                      <Surface style={styles.exercise} elevation={1}>
+                      <Surface
+                        style={[
+                          styles.exercise,
+                          {
+                            backgroundColor:
+                              mode === "dark"
+                                ? theme.colors.secondaryContainer
+                                : "white",
+                            borderColor:
+                              mode === "dark" ? "#64656f" : "#d4d4d4",
+                          },
+                        ]}
+                        elevation={1}
+                      >
                         <View
                           style={[
                             styles.decor,
@@ -153,7 +167,10 @@ export default function MuscleGroup() {
                           >
                             <Text
                               variant="titleMedium"
-                              style={[styles.exerciseText]}
+                              style={[
+                                styles.exerciseText,
+                                { color: mode === "dark" ? "white" : "" },
+                              ]}
                             >
                               {name}
                             </Text>
@@ -229,7 +246,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+
     gap: 24,
   },
   search: {

@@ -4,6 +4,7 @@ import PageContainer from "@/components/ui/PageContainer";
 import { useModeStore } from "@/store/modeStore";
 import { TThemeName, useThemeStore } from "@/store/themeStore";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Button, Divider, Switch, Text } from "react-native-paper";
 
@@ -14,10 +15,12 @@ interface IThemesDate {
 }
 
 export default function ThemesPage() {
+  const { t } = useTranslation("settingsTab");
+
   const themesDate: IThemesDate[] = [
-    { label: "Purple  (default)", hex: "#8b5cf6", value: "purple" },
-    { label: "Blue", hex: "#3b82f6", value: "blue" },
-    { label: "Pink", hex: "#ec4899", value: "pink" },
+    { label: t("themesScreen.purple"), hex: "#8b5cf6", value: "purple" },
+    { label: t("themesScreen.blue"), hex: "#3b82f6", value: "blue" },
+    { label: t("themesScreen.pink"), hex: "#ec4899", value: "pink" },
   ];
 
   const { mode, toggleMode } = useModeStore();
@@ -29,14 +32,14 @@ export default function ThemesPage() {
 
   return (
     <PageContainer>
-      <SettingPageLaoyut title="Themes">
+      <SettingPageLaoyut title={t("themesScreen.appearance")}>
         <View style={[styles.actionContainer]}>
           <View style={styles.selectLayout}>
             <Text
               variant="titleMedium"
               style={[{ color: mode === "dark" ? "white" : "" }]}
             >
-              Select theme:
+              {t("themesScreen.selectThem")}
             </Text>
             <View style={styles.colorsContainer}>
               {themesDate.map(({ label, hex, value }, i) => (
@@ -73,13 +76,16 @@ export default function ThemesPage() {
               ))}
             </View>
           </View>
-          <SelectLayout title="Select mode:" style={styles.selectModeContainer}>
+          <SelectLayout
+            title={t("themesScreen.selectMode")}
+            style={styles.selectModeContainer}
+          >
             <Button
               icon="white-balance-sunny"
               onPress={onToggleSwitch}
               disabled={mode === "white"}
             >
-              Light
+              {t("themesScreen.light")}
             </Button>
 
             <Switch
@@ -98,7 +104,7 @@ export default function ThemesPage() {
                 color: mode === "dark" ? "#cbd5e1" : undefined,
               }}
             >
-              Dark
+              {t("themesScreen.dark")}
             </Button>
           </SelectLayout>
         </View>

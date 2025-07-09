@@ -1,0 +1,62 @@
+{
+    "profile": "Профіль",
+    "otherSettings": "Інші налаштування",
+    "password": "Пароль",
+    "appearance": "Зовнішній вигляд",
+    "languages": "Мови",
+    "deleteAccount": "Видалення акаунту",
+    "logOut": "Вийти",
+    "profileScreen": {
+        "profile": "Профіль",
+        "name": "Ім'я",
+        "gender": "Стать",
+        "male": "Чоловіча",
+        "female": "Жіноча",
+        "height": "Зріст (см)",
+        "weight": "Вага (кг)",
+        "bmi": "ІМТ (Індекс маси тіла)",
+        "noBMI": "Якщо ІМТ не відображається, введіть вашу вагу, зріст та виберіть стать.",
+        "yourBMI": "Ваш ІМТ:",
+        "bmiType": {
+         "underweight": "Недостатня вага",
+         "normal": "Нормальна вага",
+         "overweight": "Зайва вага",
+        "obese": "Ожиріння"
+        },
+         "saveChanges": "Зберегти зміни",
+         "updateSucces": "Профіль успішно оновлено!"
+    },
+    "passwordScreen": {
+  "password": "Пароль",
+  "changePass": "Змінити пароль:",
+  "currentPass": "Поточний пароль",
+  "newPass": "Новий пароль",
+  "repeatNewPass": "Повторіть новий пароль",
+  "changePassBtn": "Змінити пароль",
+  "updateSuccess": "Пароль успішно оновлено!"
+},
+"themesScreen": {
+  "appearance": "Зовнішній вигляд",
+  "selectThem": "Виберіть тему:",
+  "purple": "Фіолетова (за замовчуванням)",
+  "blue": "Синя",
+  "pink": "Рожева",
+  "selectMode": "Виберіть режим:",
+  "light": "Світлий",
+  "dark": "Темний"
+},
+"languagesScreen": {
+    "languages": "Мови",
+    "selectLanguages": "Виберіть мову:"
+  },
+  "deleteAccountScreen": {
+  "deleteAccount": "Видалення акаунту",
+  "subTitle": "Натисніть кнопку, якщо бажаєте видалити свій акаунт",
+  "deleteAccBtn": "Видалити акаунт",
+  "confirmText": "Ви справді хочете видалити свій акаунт?",
+  "enterPass": "Введіть свій пароль у поле",
+  "password": "Пароль",
+  "cancel": "Скасувати",
+  "delete": "Видалити"
+}
+}

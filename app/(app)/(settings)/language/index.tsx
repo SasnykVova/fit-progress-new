@@ -4,6 +4,7 @@ import { changeAppLanguage } from "@/i18n";
 import { ELanguages, useLanguageStore } from "@/store/languageStore";
 import { useModeStore } from "@/store/modeStore";
 import React, { PropsWithChildren, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Divider, RadioButton, Text, useTheme } from "react-native-paper";
 
@@ -17,6 +18,7 @@ const Language: React.FunctionComponent<ILanguageProps> = ({
 }) => {
   const selected = useLanguageStore((state) => state.language);
   const setLanguage = useLanguageStore((state) => state.setLanguage);
+  const { t } = useTranslation("settingsTab");
   const theme = useTheme();
   const { mode } = useModeStore();
 
@@ -37,13 +39,13 @@ const Language: React.FunctionComponent<ILanguageProps> = ({
 
   return (
     <PageContainer>
-      <SettingPageLaoyut title="Language">
+      <SettingPageLaoyut title={t("languagesScreen.languages")}>
         <View>
           <Text
             variant="titleMedium"
             style={{ color: mode === "dark" ? "white" : "" }}
           >
-            Select language:
+            {t("languagesScreen.selectLanguages")}
           </Text>
           <View>
             {radioBtnItemsData.map(({ label, value }, i) => (

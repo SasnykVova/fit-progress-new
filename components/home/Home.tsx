@@ -24,7 +24,10 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
     <View
       style={[
         styles.home,
-        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+        {
+          backgroundColor:
+            mode === "white" ? "#fafaf9" : theme.colors.onPrimary,
+        },
       ]}
     >
       <View style={styles.wrapper}>

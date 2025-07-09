@@ -4,6 +4,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useModeStore } from "@/store/modeStore";
 import { globalStyles } from "@/styles/globalStyles";
 import { ISet } from "@/types/exercise/exerciseTypes";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
@@ -104,7 +105,10 @@ export default function Exercise() {
     <View
       style={[
         styles.muscleGroup,
-        { backgroundColor: mode === "white" ? "#fafaf9" : "#0a0a0a" },
+        {
+          backgroundColor:
+            mode === "white" ? "#fafaf9" : theme.colors.onPrimary,
+        },
       ]}
     >
       <ScrollView
@@ -140,34 +144,68 @@ export default function Exercise() {
               }}
             />
           ) : data?.sets?.length === 0 ? (
-            <EmptyExercise
-              title={t("exercise.emptySetsTitle")}
-              text={t("exercise.emptySetsText")}
-            />
+            <View style={{ marginTop: 150 }}>
+              <EmptyExercise
+                title={t("exercise.emptySetsTitle")}
+                text={t("exercise.emptySetsText")}
+              />
+            </View>
           ) : (
             <View style={styles.setsContainer}>
-              {data?.sets?.map(({ setNumber, weight, reps, id }) => (
-                <Surface key={setNumber} style={styles.set} elevation={1}>
-                  <Text style={styles.textMedium}>
+              {data?.sets?.map(({ setNumber, weight, reps, id }, i) => (
+                <Surface
+                  key={setNumber}
+                  style={[
+                    styles.set,
+                    {
+                      backgroundColor:
+                        mode === "dark"
+                          ? theme.colors.secondaryContainer
+                          : "white",
+                      borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+                    },
+                  ]}
+                  elevation={1}
+                >
+                  <Text
+                    style={[
+                      styles.textMedium,
+                      { color: mode === "dark" ? "white" : "" },
+                    ]}
+                  >
                     {t("exercise.set")} {setNumber}
                   </Text>
                   <View style={styles.resultContainer}>
-                    <Text style={styles.textMedium}>
+                    <Text
+                      style={[
+                        styles.textMedium,
+                        { color: mode === "dark" ? "white" : "" },
+                      ]}
+                    >
                       {t("exercise.weight")}
                     </Text>
-                    <Text>
+                    <Text style={[{ color: mode === "dark" ? "white" : "" }]}>
                       {weight} {t("exercise.kg")}
                     </Text>
                   </View>
                   <View style={styles.resultContainer}>
-                    <Text style={styles.textMedium}>{t("exercise.reps")}</Text>
-                    <Text>{reps}</Text>
+                    <Text
+                      style={[
+                        styles.textMedium,
+                        { color: mode === "dark" ? "white" : "" },
+                      ]}
+                    >
+                      {t("exercise.reps")}
+                    </Text>
+                    <Text style={[{ color: mode === "dark" ? "white" : "" }]}>
+                      {reps}
+                    </Text>
                   </View>
                   <View style={styles.btnContainer}>
                     <IconButton
                       icon="square-edit-outline"
                       size={26}
-                      iconColor="#737373"
+                      iconColor={theme.colors.primary}
                       onPress={() =>
                         handleOpenEditSetVisible({
                           setNumber,
@@ -178,10 +216,21 @@ export default function Exercise() {
                       }
                     />
                     <IconButton
-                      icon="delete-outline"
+                      icon={() => (
+                        <MaterialCommunityIcons
+                          name="delete-outline"
+                          size={26}
+                          color={
+                            data?.sets?.length - 1 !== i
+                              ? theme.colors.surfaceDisabled
+                              : "#dc2626"
+                          }
+                        />
+                      )}
                       size={26}
-                      iconColor="#dc2626"
+                      iconColor={"#dc2626"}
                       onPress={() => handleOpenDeleteSetVisible(setNumber, id)}
+                      disabled={data?.sets?.length - 1 !== i}
                     />
                   </View>
                 </Surface>

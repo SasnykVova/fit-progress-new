@@ -1,3 +1,4 @@
+import { useModeStore } from "@/store/modeStore";
 import { PropsWithChildren } from "react";
 import { StyleSheet } from "react-native";
 import { Surface, useTheme } from "react-native-paper";
@@ -8,8 +9,19 @@ const SettingsSection: React.FunctionComponent<ISettingsSectionProps> = ({
   children,
 }) => {
   const theme = useTheme();
+  const { mode } = useModeStore();
   return (
-    <Surface style={[styles.surface]} elevation={1}>
+    <Surface
+      style={[
+        styles.surface,
+        {
+          backgroundColor:
+            mode === "dark" ? theme.colors.secondaryContainer : "white",
+          borderColor: mode === "dark" ? "#64656f" : "#d4d4d4",
+        },
+      ]}
+      elevation={1}
+    >
       {children}
     </Surface>
   );

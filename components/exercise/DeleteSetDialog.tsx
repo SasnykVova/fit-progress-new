@@ -4,6 +4,7 @@ import { Button, Text, useTheme } from "react-native-paper";
 
 import { useDeleteExerciseSet } from "@/services/exercise/deleteExerciseSet";
 import { useAuthStore } from "@/store/authStore";
+import { useModeStore } from "@/store/modeStore";
 import { useLocalSearchParams } from "expo-router";
 import { Trans, useTranslation } from "react-i18next";
 import Dialog from "../ui/Dialog";
@@ -26,6 +27,7 @@ const DeleteSetDialog: React.FunctionComponent<IDeleteSetDialogProps> = ({
   setDeleteSetId,
 }) => {
   const theme = useTheme();
+  const { mode } = useModeStore();
   const { t } = useTranslation("muscleGroupTab");
   const {
     mutate: deleteExerciseSet,
@@ -65,18 +67,32 @@ const DeleteSetDialog: React.FunctionComponent<IDeleteSetDialogProps> = ({
       onDismiss={onClose}
       actions={
         <View style={styles.actionContainer}>
-          <Button onPress={onClose}>{t("exercise.cancel")}</Button>
+          <Button
+            onPress={onClose}
+            disabled={isPending}
+            labelStyle={{
+              color: isPending ? theme.colors.surfaceDisabled : "",
+            }}
+          >
+            {t("exercise.cancel")}
+          </Button>
           <Button
             onPress={handleDeleteExercise}
             disabled={isPending}
             loading={isPending}
+            style={[
+              isPending &&
+                mode === "dark" && {
+                  backgroundColor: "rgba(255,255,255,0.2)",
+                },
+            ]}
           >
             {t("exercise.delete")}
           </Button>
         </View>
       }
     >
-      <Text>
+      <Text style={[{ color: mode === "white" ? "" : "white" }]}>
         <Trans
           i18nKey="exercise.deleteSetText"
           ns="muscleGroupTab"
@@ -85,8 +101,7 @@ const DeleteSetDialog: React.FunctionComponent<IDeleteSetDialogProps> = ({
             name: (
               <Text
                 style={{
-                  textDecorationLine: "underline",
-                  color: theme.colors.secondary,
+                  color: theme.colors.primary,
                 }}
               >
                 {""}
